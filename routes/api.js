@@ -7,8 +7,11 @@ router.get('/logout');
 router.get('/auth/facebook');
 router.get('/auth/facebook/callback');
 
+
 /**
  * Endpoint to get information about logged in user
+ *
+ * Requires login
  */
 router.get('/user_info', function(req, res) {
   /**
@@ -38,7 +41,28 @@ router.get('/user_info', function(req, res) {
   res.json(data);
 });
 
-router.get('/challenge/user');
+
+/**
+ * Endpoint to get a list of challenges associated with currently logged in user
+ *
+ * Requires login
+ */
+router.get('/challenge/user', function(req, res) {
+  /**
+   * Check if user is logged in and return an error if not
+   */
+  // if (!req.isAuthenticated) {
+  //   res.json({'error':'Endpoint requires login.'});
+  //   return;
+  // }
+
+  // var challenges = req.db.Challenge.findByUser(req.user.id);
+
+  var data = require('../specs/server/mock_challenge_list.json');
+
+  res.json(data);
+});
+
 router.get('/challenge/public');
 router.get('/challenge/:id');
 router.post('/challenge');
