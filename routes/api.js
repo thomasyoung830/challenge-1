@@ -63,7 +63,19 @@ router.get('/challenge/user', function(req, res) {
   res.json(data);
 });
 
-router.get('/challenge/public');
+
+/**
+ * Endpoint to get a list of public challenges
+ */
+router.get('/challenge/public', function(req, res) {
+  // var challenges = req.db.Challenge.publicList();
+
+  var data = require('../specs/server/mock_challenge_list.json');
+
+  res.json(data);
+});
+
+
 router.get('/challenge/:id');
 router.post('/challenge');
 
