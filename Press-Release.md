@@ -18,27 +18,36 @@ Once the project moves into development, the press release can be used as a touc
  
 ## Heading ##
   > Name the product in a way the reader (i.e. your target customers) will understand.
+   Challenge App
 
 ## Sub-Heading ##
   > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+  Anyone who has the spirit of competition within them.
 
 ## Summary ##
   > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
 
+
 ## Problem ##
   > Describe the problem your product solves.
+  When you challenge your friends, there's no way to hold them accountable.
 
 ## Solution ##
   > Describe how your product elegantly solves the problem.
+  Challenge app provides you with the tools to organize all your bets in one place.
 
 ## Quote from You ##
   > A quote from a spokesperson in your company.
+  "I bet you're friends will think twice before they make a bet with the Challenge App."
 
 ## How to Get Started ##
   > Describe how easy it is to get started.
+  "Simply log in with your Facebook account and start challenging your friends!"
 
 ## Customer Quote ##
   > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+  "Thanks to the Challenge App, I lost 10lbs and got a free steak dinner!"
 
 ## Closing and Call to Action ##
   > Wrap it up and give pointers where the reader should go next.
+  Prove your confidence. Start a challenge now!
