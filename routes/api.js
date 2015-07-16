@@ -77,7 +77,7 @@ router.get('/challenge/public', function(req, res) {
 
 
 /**
- * Endpoint to get to get single challenge specified by id
+ * Endpoint to get single challenge specified by id
  */
 router.get('/challenge/:id', function(req, res) {
   var target_id = parseInt(req.params.id);
