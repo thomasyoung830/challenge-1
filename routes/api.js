@@ -99,8 +99,72 @@ router.get('/challenge/:id', function(req, res) {
 });
 
 
-router.post('/challenge');
+/**
+ * Endpoint to post a new challenge
+ *
+ * Requires login
+ */
+
+/**
+ * Check if the submitted form has all required fields
+ */
+var challenge_form_is_valid = function(form) {
+  var valid = true;
+  var required_fields = ['title', 'message'];
+  var min_text_length = 3;
+
+  required_fields.forEach(function(field) {
+    if (form[field] === '' || form[field].length < min_text_length) {
+      valid = false;
+    }
+  });
+
+  return valid;
+};
+
+router.post('/challenge', function(req, res) {
+  /**
+   * Check if user is logged in and return an error if not
+   */
+  // if (!req.isAuthenticated) {
+  //   res.status(401).json({'error':'Endpoint requires login.'});
+  //   return;
+  // }
+  
+  var form = req.body;
+
+  if (!challenge_form_is_valid(form)) {
+    res.status(400).json({'error': 'Submitted form is invalid.'});
+  }
+
+  // req.db.Challenge.create({
+  //   'title': form.title,
+  //   'message': form.message,
+  //   'wager': (form.wager !== undefined) ? form.wager : '',
+  //   'creator': req.user
+  // }).then(function(instance) {
+  //   res.status(201).json({
+  //     'id': instance.id,
+  //     'title': instance.title,
+  //     'message': instance.message,
+  //     'wager': instance.wager,
+  //     'url': instance.get_url()
+  //   });
+  // }, function(error) {
+  //   res.status(500).json({'error': 'Challenge could not be created'});
+  // });
+
+
+  res.status(201).json({
+    'id': 4,
+    'title': form.title,
+    'message': form.message,
+    'wager': form.wager || '',
+    'url': '/challenge/4'
+  });
+});
 
 module.exports = {
   'router': router,
+  'challenge_form_is_valid': challenge_form_is_valid
 };
