@@ -18,7 +18,7 @@ router.get('/user_info', function(req, res) {
    * Check if user is logged in and return an error if not
    */
   // if (!req.isAuthenticated) {
-  //   res.json({'error':'Endpoint requires login.'});
+  //   res.status(401).json({'error':'Endpoint requires login.'});
   //   return;
   // }
 
@@ -52,7 +52,7 @@ router.get('/challenge/user', function(req, res) {
    * Check if user is logged in and return an error if not
    */
   // if (!req.isAuthenticated) {
-  //   res.json({'error':'Endpoint requires login.'});
+  //   res.status(401).json({'error':'Endpoint requires login.'});
   //   return;
   // }
 
