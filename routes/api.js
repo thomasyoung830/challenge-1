@@ -101,4 +101,6 @@ router.get('/challenge/:id', function(req, res) {
 
 router.post('/challenge');
 
-module.exports = router;
+module.exports = {
+  'router': router,
+};
