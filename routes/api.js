@@ -165,7 +165,7 @@ router.put('/challenge/:id/started', requires_login, function(req, res) {
   // var query = {
   //   'where': {
   //     'id': target_id,
-  //     'creator': req.user
+  //     'creator': req.user,
   //     'started': false
   //   }
   // };
