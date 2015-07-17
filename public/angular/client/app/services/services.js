@@ -8,7 +8,7 @@ angular.module('challengeApp.services', [])
 	var getChallengeInfo = function(challengeId){
 		return $http({
 		  method: 'GET',
-		  url: '/challenge/' +  challengeId,
+		  url: '/api/1/challenge/' +  challengeId,
 		}).then(function(resp){
 		  return resp;
 		});
