@@ -11,13 +11,13 @@ var orm = new Sequelize('ChallengeDb', 'app', pass, {
     idle: 3000
   },
 
-  storage: './ChallengeDb.sqlite'
+  storage: '../db/ChallengeDb.sqlite'
 });
 
 orm.authenticate()
-  .then(function() {
-    console.log('Connection to db successful!');
-   })
+  // .then(function() {
+  //   console.log('Connection to db successful!');
+  //  })
   .catch(function(err) {
     console.log('Connection to db failed: ', err);
   })
@@ -30,7 +30,11 @@ var Users = orm.define('user', {
     primaryKey: true
   },
 
-  FB_Name: {
+  first_name: {
+    type: Sequelize.STRING
+  },
+
+  last_name: {
     type: Sequelize.STRING
   },
 
@@ -118,3 +122,8 @@ Challenges.belongsToMany(Users, {
 // make the database
 // delete database file to clear database
 orm.sync();
+
+exports.Users = Users;
+exports.Challenges = Challenges;
+exports.UsersChallenges = UsersChallenges;
+exports.orm = orm;
