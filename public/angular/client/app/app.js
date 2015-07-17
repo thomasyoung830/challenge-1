@@ -1,10 +1,10 @@
-angular.module('challenge', [
-  'challenge.clicked',
-  'challenge.create',
-  'challenge.completed',
-  'challenge.auth',
-  'challenge.recent',
-  'challenge.services',
+angular.module('challengeApp', [
+  'challengeApp.clicked',
+  'challengeApp.create',
+  'challengeApp.completed',
+  'challengeApp.auth',
+  'challengeApp.recent',
+  'challengeApp.services',
   'ui.router'
 ])
 
@@ -29,13 +29,13 @@ angular.module('challenge', [
     .state('completed', {
         url: '/completed',
         template: 'completed.html',
-        controller: 'CompletedController'
+        controller: 'completedChallengesController'
     })
 
     .state('create', {
         url: '/create',
         template: 'create.html',
-        controller: 'CreateController'
+        controller: 'createChallengeController'
     })
     // Challenge PAGE AND MULTIPLE NAMED VIEWS =================================
     .state('challenge', {
@@ -49,11 +49,10 @@ angular.module('challenge', [
 
             // the child views will be defined here (absolutely named)
             'challenger': { 
-              templateUrl: 'challenge/challenger.html' 
+              templateUrl: 'challenge/challenger.html', 
               controller: "ChallengeController"
             },
 
-            // for column two, we'll define a separate controller 
             'public': { 
               templateUrl: 'challenge/public.html',
               controller: "ChallengeController" 

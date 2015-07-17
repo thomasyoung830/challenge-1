@@ -1,4 +1,4 @@
-angular.module('challenge.auth', [])
+angular.module('challengeApp.auth', [])
 
 .controller('AuthController', function ($scope, Auth) {
   $scope.user = {};
