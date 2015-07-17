@@ -100,12 +100,6 @@ router.get('/challenge/:id', function(req, res) {
 
 
 /**
- * Endpoint to post a new challenge
- *
- * Requires login
- */
-
-/**
  * Check if the submitted form has all required fields
  */
 var challenge_form_is_valid = function(form) {
@@ -122,6 +116,12 @@ var challenge_form_is_valid = function(form) {
   return valid;
 };
 
+
+/**
+ * Endpoint to post a new challenge
+ *
+ * Requires login
+ */
 router.post('/challenge', function(req, res) {
   /**
    * Check if user is logged in and return an error if not
