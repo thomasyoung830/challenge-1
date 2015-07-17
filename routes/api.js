@@ -123,6 +123,7 @@ router.post('/challenge', requires_login, function(req, res) {
 
   if (!challenge_form_is_valid(form)) {
     res.status(400).json({'error': 'Submitted form is invalid.'});
+    return;
   }
 
   // req.db.Challenge.create({
