@@ -1,4 +1,4 @@
-angular.module('challenge.auth', [])
+angular.module('challengeApp.auth', [])
 
 .controller('AuthController', function ($scope, Auth) {
   $scope.user = {};
@@ -9,9 +9,9 @@ angular.module('challenge.auth', [])
     //     $window.localStorage.setItem('com.shortly', token);
     //     $location.path('/links');
     //   })
-      .catch(function (error) {
-        console.error(error);
-      });
+      // .catch(function (error) {
+      //   console.error(error);
+      // });
   };
 
   $scope.signup = function () {
@@ -20,8 +20,8 @@ angular.module('challenge.auth', [])
       //   $window.localStorage.setItem('com.shortly', token);
       //   $location.path('/links');
       // })
-      .catch(function (error) {
-        console.error(error);
-      });
+      // .catch(function (error) {
+      //   console.error(error);
+      // });
   };
 });

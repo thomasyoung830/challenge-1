@@ -1,5 +1,5 @@
-angular.module('challenge.create', [])
+angular.module('challengeApp.createChallenge', [])
 
-.controller('CreateController', function ($scope, Create) {
+.controller('createChallengeController', function ($scope, createChallenge) {
   // Your code here
 });

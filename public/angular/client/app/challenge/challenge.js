@@ -1,5 +1,5 @@
-angular.module('challenge.clicked', [])
+angular.module('challengeApp.challenge', [])
 
-.controller('ClickedController', function ($scope, Clicked) {
+.controller('ChallengeController', function ($scope, Challenge) {
   // Your code here
 });

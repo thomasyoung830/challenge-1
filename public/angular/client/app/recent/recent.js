@@ -1,5 +1,5 @@
-angular.module('challenge.recent', [])
+angular.module('challengeApp.recentChallenges', [])
 
-.controller('RecentController', function ($scope, Recent) {
+.controller('recentChallengesController', function ($scope, recentChallenges) {
   // Your code here
 });
