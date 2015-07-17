@@ -121,6 +121,26 @@ describe('Api integration tests', function() {
       });
     });
 
+    it('should be able to accept a challenge', function(done) {
+      var uri = 'http://localhost:3030/api/1/challenge/3/accept';
+
+      request({'uri':uri, 'method':'PUT', 'json':true}, function(err, res, body) {
+        expect(body).to.be.an('object');
+        expect(body.success).to.be.true;
+        done();
+      });
+    });
+
+    it('shouldn\'t be able to accept a challenge that has already been accepted', function(done) {
+      var uri = 'http://localhost:3030/api/1/challenge/2/accept';
+
+      request({'uri':uri, 'method':'PUT', 'json':true}, function(err, res, body) {
+        expect(body).to.be.an('object');
+        expect(body).to.have.all.keys(['error', 'message']);
+        done();
+      });
+    });
+
   });
 
 });

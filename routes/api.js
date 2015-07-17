@@ -232,6 +232,57 @@ router.put('/challenge/:id/complete', requires_login, function(req, res) {
 });
 
 
+router.put('/challenge/:id/accept', requires_login, function(req, res) {
+  var target_id = parseInt(req.params.id);
+
+  // var user_id = req.user.id;
+  //
+  // var query = {
+  //   'where': {
+  //     'ChallengeId': target_id,
+  //     'UserId': req.user.id,
+  //     'accepted': false
+  //   }
+  // };
+
+  // req.db.UserChallenge.find(query).then(function(user_challenge) {
+  //   user_challenge.accepted = true;
+  //   user_challenge.save().then(function() {
+  //     res.json({'success': true});
+  //   });
+  // }, function(error) {
+  //   res.status(400).json({'error': 'ENOTFOUND', 'message': 'User not part of challenge or already accepted'});
+  // });
+
+
+  var user_id = 1;
+  var data;
+  require('../specs/server/mock_challenge_list.json').forEach(function(challenge) {
+    if(challenge.id === target_id && !challenge.started) {
+      data = challenge;
+      return;
+    }
+  });
+  if (data === undefined) {
+    res.status(400).json({'error': 'ENOTFOUND', 'message': 'User not part of challenge or already accepted'});
+  } else {
+    var found = false;
+    data.participants.forEach(function(user) {
+      if (user.id === user_id && !user.accepted) {
+        found = true;
+        return;
+      }
+    });
+
+    if (!found) {
+      res.status(400).json({'error': 'ENOTFOUND', 'message': 'User not part of challenge or already accepted'});
+    } else {
+      res.json({'success': true});
+    }
+  }
+});
+
+
 module.exports = {
   'router': router,
   'challenge_form_is_valid': challenge_form_is_valid
