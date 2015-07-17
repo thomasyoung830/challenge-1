@@ -180,7 +180,7 @@ router.put('/challenge/:id/started', requires_login, function(req, res) {
   //   res.status(400).json({'error': 'Could not find appropriate challenge with the id: ' + target_id});
   // });
 
-  var found;
+  var found = false;
   require('../specs/server/mock_challenge_list.json').forEach(function(challenge) {
     if(challenge.id === target_id && !challenge.started) {
       found = true;
