@@ -194,6 +194,51 @@ router.put('/challenge/:id/started', requires_login, function(req, res) {
   }
 });
 
+
+/**
+ * Endpoint to set a winner and complete challenge
+ *
+ * Requires login
+ */
+router.put('/challenge/:id/complete', requires_login, function(req, res) {
+  var target_id = parseInt(req.params.id);
+  var winner = req.body.winner;
+
+  // var query = {
+  //   'where': {
+  //     'id': target_id,
+  //     'creator': req.user,
+  //     'started': true,
+  //     'complete': false
+  //   }
+  // };
+
+  // req.db.Challenge.find(query).then(function(challenge) {
+  //   challenge.complete = true;
+  //   challenge.winner = winner;
+  //   challenge.date_completed = Date.now();
+  //   challenge.save().then(function() {
+  //     res.json({'succeess':true});
+  //   });
+  // }, function(error) {
+  //   res.status(400).json({'error': 'Could not find appropriate challenge with the id: ' + target_id});
+  // });
+
+  var found = false;
+  require('../specs/server/mock_challenge_list.json').forEach(function(challenge) {
+    if(challenge.id === target_id && challenge.started && !challenge.complete) {
+      found = true;
+      return;
+    }
+  });
+  if (!found) {
+    res.status(400).json({'error': 'Could not find appropriate challenge with the id: ' + target_id});
+  } else {
+    res.json({'success': true});
+  }
+});
+
+
 module.exports = {
   'router': router,
   'challenge_form_is_valid': challenge_form_is_valid
