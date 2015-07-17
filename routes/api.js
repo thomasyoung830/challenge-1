@@ -16,12 +16,6 @@ var requires_login = function(req, res, next) {
   next();
 };
 
-router.post('/login');
-router.get('/logout');
-
-router.get('/auth/facebook');
-router.get('/auth/facebook/callback');
-
 
 /**
  * Endpoint to get information about logged in user

@@ -4,3 +4,5 @@ challenge.sublime-workspace
 public/lib/*.js
 
 *.sqlite
+
+/facebook_config.js
