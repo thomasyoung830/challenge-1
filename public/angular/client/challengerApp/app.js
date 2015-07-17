@@ -1,63 +1,65 @@
 angular.module('challengeApp', [
-  'challengeApp.clicked',
-  'challengeApp.create',
-  'challengeApp.completed',
+  'challengeApp.challenge',
+  'challengeApp.createChallenge',
+  'challengeApp.completedChallenges',
   'challengeApp.auth',
-  'challengeApp.recent',
+  'challengeApp.recentChallenges',
   'challengeApp.services',
   'ui.router'
 ])
 
 .config(function($stateProvider, $urlRouterProvider) {
     
-  $urlRouterProvider.otherwise('/signin');
+  $urlRouterProvider.otherwise('angular/client/challengerApp/signin');
     
   $stateProvider
       // HOME STATES AND NESTED VIEWS ========================================
     .state('signin', {
         url: '/signin',
-        templateUrl: 'signin.html',
+        templateUrl: 'angular/client/challengerApp/signin.html',
         controller: 'SigninController'
     })
 
     .state('signup', {
         url: '/signup',
-        templateUrl: 'signup.html',
+        templateUrl: 'angular/client/challengerApp/signup.html',
         controller: 'SignupController'
     })
 
     .state('completed', {
         url: '/completed',
-        template: 'completed.html',
+        templateUrl: 'angular/client/challengerApp/completed.html',
         controller: 'completedChallengesController'
     })
 
     .state('create', {
         url: '/create',
-        template: 'create.html',
+        templateUrl: 'create.html',
         controller: 'createChallengeController'
     })
     // Challenge PAGE AND MULTIPLE NAMED VIEWS =================================
     .state('challenge', {
-        url: '/challenge',
-        views: {
-            // the main template will be placed here (relatively named)
-            'creator': { 
-              templateUrl: 'challenge/creator.html',
-              controller: 'ChallengeController'
-            },
+        url: '/challenge/:challengeId',
+        templateUrl: 'angular/client/challengerApp/challenge/public.html',
+        controller: 'ChallengeController'
+        // views: {
+        //     // the main template will be placed here (relatively named)
+        //     'creator': { 
+        //       templateUrl: 'challenge/creator.html',
+        //       controller: 'ChallengeController'
+        //     },
 
-            // the child views will be defined here (absolutely named)
-            'challenger': { 
-              templateUrl: 'challenge/challenger.html', 
-              controller: "ChallengeController"
-            },
+        //     // the child views will be defined here (absolutely named)
+        //     'challenger': { 
+        //       templateUrl: 'challenge/challenger.html', 
+        //       controller: "ChallengeController"
+        //     },
 
-            'public': { 
-              templateUrl: 'challenge/public.html',
-              controller: "ChallengeController" 
-          }
-        }
+        //     'public': { 
+        //       templateUrl: 'challenge/public.html',
+        //       controller: "ChallengeController" 
+        //   }
+        // }
     });
 
 }); // closes $routerApp.config()

@@ -15,7 +15,7 @@ angular.module('challengeApp.auth', [])
   };
 
   $scope.signup = function () {
-    Auth.signup($scope.user)
+    // Auth.signup($scope.user)
       // .then(function (token) {
       //   $window.localStorage.setItem('com.shortly', token);
       //   $location.path('/links');

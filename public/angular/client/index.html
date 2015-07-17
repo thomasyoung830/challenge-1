@@ -3,19 +3,19 @@
 <head>
 
     <!-- CSS (load bootstrap) -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <style>
         .navbar { border-radius:0; }
     </style>
 
     <!-- JS (load angular, ui-router, and our custom js file) -->
     <script src="http://code.angularjs.org/1.2.13/angular.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>
-    <script src="app.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>
+    <script src="angular/client/challengerApp/app.js"></script>
 </head>
 
 <!-- apply our angular app to our site -->
-<body ng-app="challengerApp">
+<body ng-app="challengeApp">
 
 <!-- NAVIGATION -->
 <nav class="navbar navbar-inverse" role="navigation">
@@ -23,7 +23,7 @@
         <a class="navbar-brand" ui-sref="#">AngularUI Router</a>
     </div>
     <ul class="nav navbar-nav">
-        <li><a ui-sref="home">Home</a></li>
+        <li><a ui-sref="challenge({challengeId:1})">Challenge</a></li>
         <li><a ui-sref="about">About</a></li>
     </ul>
 </nav>
@@ -35,12 +35,12 @@
     <div ui-view></div>
 
 </div>
-<script src="challengerApp/auth/auth.js"></script>
-<script src="challengerApp/challenge/challenge.js"></script>
-<script src="challengerApp/completed/completed.js"></script>
-<script src="challengerApp/create/create.js"></script>
-<script src="challengerApp/services/services.js"></script>
-<script src="challengerApp/recent/recent.js"></script>
+<script src="angular/client/challengerApp/auth/auth.js"></script>
+<script src="angular/client/challengerApp/challenge/challenge.js"></script>
+<script src="angular/client/challengerApp/completed/completed.js"></script>
+<script src="angular/client/challengerApp/create/create.js"></script>
+<script src="angular/client/challengerApp/services/services.js"></script>
+<script src="angular/client/challengerApp/recent/recent.js"></script>
 
 
 </body>
