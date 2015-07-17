@@ -131,7 +131,7 @@ router.post('/challenge', requires_login, function(req, res) {
   //   'title': form.title,
   //   'message': form.message,
   //   'wager': (form.wager !== undefined) ? form.wager : '',
-  //   'creator': req.user
+  //   'creator': req.user.id
   // }).then(function(instance) {
   //   res.status(201).json({
   //     'id': instance.id,
@@ -175,7 +175,7 @@ router.put('/challenge/:id/started', requires_login, function(req, res) {
   //   challenge.started = true;
   //   challenge.date_started = Date.now();
   //   challenge.save().then(function() {
-  //     res.json({'succeess':true});
+  //     res.json({'success':true});
   //   });
   // }, function(error) {
   //   res.status(400).json({'error': 'ENOTFOUND', 'message': 'Could not find appropriate challenge with the id: ' + target_id});
@@ -208,7 +208,7 @@ router.put('/challenge/:id/complete', requires_login, function(req, res) {
   // var query = {
   //   'where': {
   //     'id': target_id,
-  //     'creator': req.user,
+  //     'creator': req.user.id,
   //     'started': true,
   //     'complete': false
   //   }
@@ -219,7 +219,7 @@ router.put('/challenge/:id/complete', requires_login, function(req, res) {
   //   challenge.winner = winner;
   //   challenge.date_completed = Date.now();
   //   challenge.save().then(function() {
-  //     res.json({'succeess':true});
+  //     res.json({'success':true});
   //   });
   // }, function(error) {
   //   res.status(400).json({'error': 'ENOTFOUND', 'message': 'Could not find appropriate challenge with the id: ' + target_id});
