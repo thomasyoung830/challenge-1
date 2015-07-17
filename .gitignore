@@ -6,3 +6,5 @@ public/lib/*.js
 *.sqlite
 
 /facebook_config.js
+
+npm-debug.log
