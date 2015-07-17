@@ -1,6 +1,6 @@
 
 describe('ChallengeController', function(){
 
-  beforeEach(module('challenge'));
+  beforeEach(module('challengeApp'));
 
 });
