@@ -2,3 +2,5 @@
 /bower_components
 challenge.sublime-workspace
 public/lib/*.js
+
+*.sqlite
