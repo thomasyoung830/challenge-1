@@ -7,7 +7,7 @@ var router = express.Router();
  */
 var requires_login = function(req, res, next) {
   // if (!req.isAuthenticated()) {
-  //     res.status(401).json({'error':'Endpoint requires login.'});
+  //     res.status(401).json({'error': 'ENOTAUTH', 'message':'Endpoint requires login.'});
   //   } else {
   //     next();
   //   }
@@ -42,6 +42,7 @@ router.get('/user_info', requires_login, function(req, res) {
     'last_name': 'Savage',
     'profile_image' : 'http://img.bleacherreport.net/img/images/photos/001/866/715/randy_savage_crop_north.png?w=377&h=251&q=75',
   };
+
   res.json(data);
 });
 
@@ -88,7 +89,7 @@ router.get('/challenge/:id', function(req, res) {
   });
   if (data === undefined) {
     res.status(400);
-    data = {'error': 'Could not find challenge with the id: ' + target_id};
+    data = {'error': 'ENOTFOUND', 'message': 'Could not find challenge with the id: ' + target_id};
   }
 
   res.json(data);
@@ -122,7 +123,7 @@ router.post('/challenge', requires_login, function(req, res) {
   var form = req.body;
 
   if (!challenge_form_is_valid(form)) {
-    res.status(400).json({'error': 'Submitted form is invalid.'});
+    res.status(400).json({'error': 'EINVALID', 'message': 'Submitted form is invalid.'});
     return;
   }
 
@@ -140,7 +141,7 @@ router.post('/challenge', requires_login, function(req, res) {
   //     'url': instance.get_url()
   //   });
   // }, function(error) {
-  //   res.status(500).json({'error': 'Challenge could not be created'});
+  //   res.status(500).json({'error': 'EUNKNOWN', 'message': 'Challenge could not be created'});
   // });
 
 
@@ -177,7 +178,7 @@ router.put('/challenge/:id/started', requires_login, function(req, res) {
   //     res.json({'succeess':true});
   //   });
   // }, function(error) {
-  //   res.status(400).json({'error': 'Could not find appropriate challenge with the id: ' + target_id});
+  //   res.status(400).json({'error': 'ENOTFOUND', 'message': 'Could not find appropriate challenge with the id: ' + target_id});
   // });
 
   var found = false;
@@ -188,7 +189,7 @@ router.put('/challenge/:id/started', requires_login, function(req, res) {
     }
   });
   if (!found) {
-    res.status(400).json({'error': 'Could not find appropriate challenge with the id: ' + target_id});
+    res.status(400).json({'error': 'ENOTFOUND', 'message': 'Could not find appropriate challenge with the id: ' + target_id});
   } else {
     res.json({'success': true});
   }
@@ -221,7 +222,7 @@ router.put('/challenge/:id/complete', requires_login, function(req, res) {
   //     res.json({'succeess':true});
   //   });
   // }, function(error) {
-  //   res.status(400).json({'error': 'Could not find appropriate challenge with the id: ' + target_id});
+  //   res.status(400).json({'error': 'ENOTFOUND', 'message': 'Could not find appropriate challenge with the id: ' + target_id});
   // });
 
   var found = false;
@@ -232,7 +233,7 @@ router.put('/challenge/:id/complete', requires_login, function(req, res) {
     }
   });
   if (!found) {
-    res.status(400).json({'error': 'Could not find appropriate challenge with the id: ' + target_id});
+    res.status(400).json({'error': 'ENOTFOUND', 'message': 'Could not find appropriate challenge with the id: ' + target_id});
   } else {
     res.json({'success': true});
   }
