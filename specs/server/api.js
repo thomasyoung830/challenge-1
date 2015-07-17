@@ -95,7 +95,7 @@ describe('Api integration tests', function() {
 
       request({'uri':uri, 'method':'PUT', 'json':true}, function(err, res, body) {
         expect(body).to.be.an('object');
-        expect(body).to.have.key('error');
+        expect(body).to.have.all.keys(['error', 'message']);
         done();
       });
     });
@@ -116,7 +116,7 @@ describe('Api integration tests', function() {
 
       request({'uri':uri, 'method':'PUT', 'json':true}, function(err, res, body) {
         expect(body).to.be.an('object');
-        expect(body).to.have.key('error');
+        expect(body).to.have.all.keys(['error', 'message']);
         done();
       });
     });
