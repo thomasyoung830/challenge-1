@@ -181,12 +181,8 @@ router.put('/challenge/:id/started', requires_login, function(req, res) {
   //   res.status(400).json({'error': 'ENOTFOUND', 'message': 'Could not find appropriate challenge with the id: ' + target_id});
   // });
 
-  var found = false;
-  require('../specs/server/mock_challenge_list.json').forEach(function(challenge) {
-    if(challenge.id === target_id && !challenge.started) {
-      found = true;
-      return;
-    }
+  var found = require('../specs/server/mock_challenge_list.json').some(function(challenge) {
+    return (challenge.id === target_id && !challenge.started);
   });
   if (!found) {
     res.status(400).json({'error': 'ENOTFOUND', 'message': 'Could not find appropriate challenge with the id: ' + target_id});
@@ -225,12 +221,8 @@ router.put('/challenge/:id/complete', requires_login, function(req, res) {
   //   res.status(400).json({'error': 'ENOTFOUND', 'message': 'Could not find appropriate challenge with the id: ' + target_id});
   // });
 
-  var found = false;
-  require('../specs/server/mock_challenge_list.json').forEach(function(challenge) {
-    if(challenge.id === target_id && challenge.started && !challenge.complete) {
-      found = true;
-      return;
-    }
+  var found = require('../specs/server/mock_challenge_list.json').some(function(challenge) {
+    return (challenge.id === target_id && challenge.started && !challenge.complete);
   });
   if (!found) {
     res.status(400).json({'error': 'ENOTFOUND', 'message': 'Could not find appropriate challenge with the id: ' + target_id});
