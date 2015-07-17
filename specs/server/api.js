@@ -79,6 +79,26 @@ describe('Api integration tests', function() {
       });
     });
 
+
+    it('should be able to start a challenge', function(done) {
+      var uri = 'http://localhost:3030/api/1/challenge/3/started';
+
+      request({'uri':uri, 'method':'PUT', 'json':true}, function(err, res, body) {
+        expect(body).to.be.an('object');
+        expect(body.success).to.be.true;
+        done();
+      });
+    });
+
+    it('shouldn\'t be able to start a challenge that has already been started', function(done) {
+      var uri = 'http://localhost:3030/api/1/challenge/1/started';
+
+      request({'uri':uri, 'method':'PUT', 'json':true}, function(err, res, body) {
+        expect(body).to.be.an('object');
+        expect(body).to.have.key('error');
+        done();
+      });
+    });
   });
 
 });
