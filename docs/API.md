@@ -28,7 +28,7 @@ POST /challenge
 *  'participants':[{'id':\<int>},],
 *  'wager':\<str:optional>, 
 * }
-* Returns new <Challenge>
+* Returns new \<Challenge>
 
 PUT /challenge/:id/started
 * Requires authentication
