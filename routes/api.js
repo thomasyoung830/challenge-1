@@ -1,6 +1,21 @@
 var express = require('express');
 var router = express.Router();
 
+
+/**
+ * Check if user is logged in and return an error otherwise
+ */
+var requires_login = function(req, res, next) {
+  // if (!req.isAuthenticated()) {
+  //     res.status(401).json({'error':'Endpoint requires login.'});
+  //   } else {
+  //     next();
+  //   }
+  
+  // Disabled for now
+  next();
+};
+
 router.post('/login');
 router.get('/logout');
 
@@ -13,18 +28,7 @@ router.get('/auth/facebook/callback');
  *
  * Requires login
  */
-router.get('/user_info', function(req, res) {
-  /**
-   * Check if user is logged in and return an error if not
-   */
-  // if (!req.isAuthenticated) {
-  //   res.status(401).json({'error':'Endpoint requires login.'});
-  //   return;
-  // }
-
-  /**
-  * Object returned from endpoint
-  */
+router.get('/user_info', requires_login, function(req, res) {
   // var data = {
   //   'first_name': req.user.first_name,
   //   'last_name': req.user.last_name,
@@ -47,15 +51,7 @@ router.get('/user_info', function(req, res) {
  *
  * Requires login
  */
-router.get('/challenge/user', function(req, res) {
-  /**
-   * Check if user is logged in and return an error if not
-   */
-  // if (!req.isAuthenticated) {
-  //   res.status(401).json({'error':'Endpoint requires login.'});
-  //   return;
-  // }
-
+router.get('/challenge/user', requires_login, function(req, res) {
   // var data = req.db.Challenge.findByUser(req.user.id);
 
   var data = require('../specs/server/mock_challenge_list.json');
@@ -122,15 +118,7 @@ var challenge_form_is_valid = function(form) {
  *
  * Requires login
  */
-router.post('/challenge', function(req, res) {
-  /**
-   * Check if user is logged in and return an error if not
-   */
-  // if (!req.isAuthenticated) {
-  //   res.status(401).json({'error':'Endpoint requires login.'});
-  //   return;
-  // }
-  
+router.post('/challenge', requires_login, function(req, res) {
   var form = req.body;
 
   if (!challenge_form_is_valid(form)) {
