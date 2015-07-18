@@ -10,7 +10,7 @@ module.exports = {
         challenge_id: iChallengeID
         //challenge_id: challengeId
       }
-    }) 
+    })
     .then(function(results) {
       if (results.length < 1) {
         throw new Error('Challenge ID not found at method findChallengeById()');
@@ -37,5 +37,5 @@ module.exports = {
       throw new Error('Unknown error at method createChallenge()');
     });
   }
-  
+
 };
