@@ -20,6 +20,32 @@ module.exports = {
     });
   },
 
+  findChallengesByUserId: function(userID) {
+     db.User.findOne({id: userID}, function() {})
+     .then(function(user) {
+       //user.getChallenges({ where: 'userId = ' + userID })
+       user.getChallenges()
+      .then(function(challenges) {
+        var resultArr = [];
+        console.log('FIND CHALLENGE BY USER ID: ',typeof challenges[0].get({plain: true}));
+        for (var i = 0; i < challenges.length; i++) {
+          resultArr.push(challenges[i].get({plain: true}));
+        }
+        console.log(resultArr);
+        return resultArr;
+      });
+      //console.log(user);
+     });
+
+
+
+    // db.User.getChallenge({ where: 'userId = ' + userID }).then(function(challenges) {
+    //   console.log(challenges);
+    // });
+
+
+  },
+
   createChallenge: function(challengeObject) {
 
     db.User.findOne({id: iUserID}, function() {})

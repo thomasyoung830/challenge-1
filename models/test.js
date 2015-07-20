@@ -23,7 +23,9 @@ var testUserObject = {
 
 //challenges.createChallenge(testObject);
 //users.save(testUserObject);
-challenges.findChallengeById(1);
+//challenges.findChallengeById(1);
+//challenges.findChallengesByUserID(1);
+users.findUsersByChallengeId(1);
 
 //This is Users method
 // db.Users.findOrCreate({

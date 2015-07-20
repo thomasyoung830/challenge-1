@@ -102,9 +102,9 @@ User.belongsToMany(Challenge, {
   through: UserChallenge
 });
 
-// Challenge.belongsToMany(User, {
-//   through: UserChallenge
-// });
+Challenge.belongsToMany(User, {
+  through: UserChallenge
+});
 
 
 // make the database
