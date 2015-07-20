@@ -1,17 +1,13 @@
 angular.module('challengeApp.auth', [])
 
-.controller('AuthController', function ($scope, Auth) {
+.controller('AuthController', function ($scope, AuthFactory) {
   $scope.user = {};
 
-  $scope.signin = function () {
-    // Auth.signin($scope.user)
-    //   .then(function (token) {
-    //     $window.localStorage.setItem('com.shortly', token);
-    //     $location.path('/links');
-    //   })
-      // .catch(function (error) {
-      //   console.error(error);
-      // });
+  $scope.getUserInfo = function () {
+    AuthController.getUserInfo().then(function(res){
+      console.log(res);
+      $scope.user = res;
+    })
   };
 
   $scope.signup = function () {
