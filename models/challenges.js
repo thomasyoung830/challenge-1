@@ -5,9 +5,9 @@ var iChallengeID = 1;
 //Challenges Method
 module.exports = {
   findChallengeById: function(challengeId) {
-    db.Challenges.findAll({
+    db.Challenge.findAll({
       where : {
-        challenge_id: iChallengeID
+        id: iChallengeID
         //challenge_id: challengeId
       }
     })
@@ -24,15 +24,15 @@ module.exports = {
   },
 
   createChallenge: function(challengeObject) {
-    db.Challenges.create({
+    db.Challenge.create({
       title: challengeObject.title,
       message: challengeObject.message,
       wager: challengeObject.wager,
       creator: challengeObject.creator,
       winner: challengeObject.winner,
       complete: challengeObject.complete,
-      start_date: challengeObject.start_date,
-      complete_date: challengeObject.complete_date
+      date_started: challengeObject.date_started,
+      date_completed: challengeObject.date_completed
     }).catch(function() {
       throw new Error('Unknown error at method createChallenge()');
     });

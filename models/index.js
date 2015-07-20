@@ -23,13 +23,7 @@ orm.authenticate()
   })
   .done();
 
-var Users = orm.define('user', {
-  user_id: {
-    type: Sequelize.INTEGER,
-    autoincrement: true,
-    primaryKey: true
-  },
-
+var User = orm.define('users', {
   first_name: {
     type: Sequelize.STRING
   },
@@ -38,29 +32,27 @@ var Users = orm.define('user', {
     type: Sequelize.STRING
   },
 
-  FB_Email: {
+  email: {
+    type: Sequelize.STRING
+  },
+
+  fb_id: {
     type: Sequelize.STRING
   }
 });
 
-var Challenges = orm.define('challenges', {
-  challenge_id: {
-    type: Sequelize.INTEGER,
-    autoincrement: true,
-    primaryKey: true
-  },
-
+var Challenge = orm.define('challenges', {
   url_id: {
     type: Sequelize.INTEGER,
     autoincrement: true
   },
 
   title: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING, allowNull: false
   },
 
   message: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING, allowNull: false
   },
 
   wager: {
@@ -68,7 +60,7 @@ var Challenges = orm.define('challenges', {
   },
 
   creator: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER, allowNull: false
   },
 
   winner: {
@@ -76,7 +68,11 @@ var Challenges = orm.define('challenges', {
   },
 
   complete: {
-    type: Sequelize.BOOLEAN
+    type: Sequelize.BOOLEAN, defaultValue: true
+  },
+
+  started: {
+    type: Sequelize.BOOLEAN, defaultValue: false
   },
 
   // sequelize or sqlite automatically makes a 'createdAt' attribute
@@ -84,17 +80,17 @@ var Challenges = orm.define('challenges', {
 
   // },
 
-  start_date: {
+  date_started: {
     type: Sequelize.DATE
   },
 
-  complete_date: {
+  date_completed: {
     type: Sequelize.DATE
   }
 });
 
 // Define the join table which joins Users and Challenges
-var UsersChallenges = orm.define('users-challenges', {
+var UserChallenge = orm.define('users-challenges', {
   user_id: {
     type: Sequelize.INTEGER
   },
@@ -110,12 +106,12 @@ var UsersChallenges = orm.define('users-challenges', {
 });
 
 // Setup the many-many relationship through the orm
-Users.belongsToMany(Challenges, {
-  through: UsersChallenges
+User.belongsToMany(Challenge, {
+  through: UserChallenge
 });
 
-Challenges.belongsToMany(Users, {
-  through: UsersChallenges
+Challenge.belongsToMany(User, {
+  through: UserChallenge
 });
 
 
@@ -123,7 +119,7 @@ Challenges.belongsToMany(Users, {
 // delete database file to clear database
 orm.sync();
 
-exports.Users = Users;
-exports.Challenges = Challenges;
-exports.UsersChallenges = UsersChallenges;
+exports.User = User;
+exports.Challenge = Challenge;
+exports.UserChallenge = UserChallenge;
 exports.orm = orm;

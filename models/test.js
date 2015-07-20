@@ -8,15 +8,16 @@ var testObject = {
 	creator: 1,
 	winner: null,
 	complete: false,
-	start_date: Date(),
-	complete_date: Date()
+  started: false,
+	date_started: Date(),
+	date_completed: Date()
 };
 
 challenges.createChallenge(testObject);
 
 //This is Users method
 // db.Users.findOrCreate({
-// 	where: {first_name: 'Johny', last_name: 'Martin'}, 
+// 	where: {first_name: 'Johny', last_name: 'Martin'},
 // 	defaults: {last_name: 'Martin',
 // 				FB_Email: 'ricky@example.com'}
 // }).then(function(user) {
@@ -31,7 +32,7 @@ challenges.createChallenge(testObject);
 // 		first_name: 'Johny',
 // 		last_name: 'Martin'
 // 	}
-// }) 
+// })
 // .then(function(results) {
 //   if (results.length < 1) {
 //   	console.log('no user found');

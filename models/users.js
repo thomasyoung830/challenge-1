@@ -2,13 +2,14 @@ var db = require('./index.js');
 
 module.exports = {
 	save: function(userObject) {
-		db.Users.findOrCreate({
+		db.User.findOrCreate({
 			where: {
-				FB_Email: userObject.FB_Email
+				email: userObject.email
 			},
 			defaults: {
 	      first_name: userObject.first_name,
-	      last_name: userObject.last_name
+	      last_name: userObject.last_name,
+        fb_id: userObject.fb_id
 	    }
     })
     .then(function(results) {
@@ -17,7 +18,7 @@ module.exports = {
     })
 
     .catch(function() {
-      throw new Error('Unknown error at method users save()');
+      throw new Error('Unknown error at method user save()');
     });
 	}
 };
