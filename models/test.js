@@ -1,5 +1,6 @@
 var db = require('./index.js');
 var challenges = require('./challenges.js');
+var users = require('./users.js');
 
 var testObject = {
 	title: 'gallon milk challenge',
@@ -13,7 +14,16 @@ var testObject = {
 	date_completed: Date()
 };
 
-challenges.createChallenge(testObject);
+var testUserObject = {
+  first_name : 'John',
+  last_name : 'Martin',
+  email: 'johnmartin@test.com',
+  fb_id: '12'
+};
+
+//challenges.createChallenge(testObject);
+//users.save(testUserObject);
+challenges.findChallengeById(1);
 
 //This is Users method
 // db.Users.findOrCreate({

@@ -68,7 +68,7 @@ var Challenge = orm.define('challenges', {
   },
 
   complete: {
-    type: Sequelize.BOOLEAN, defaultValue: true
+    type: Sequelize.BOOLEAN, defaultValue: false
   },
 
   started: {
@@ -90,15 +90,7 @@ var Challenge = orm.define('challenges', {
 });
 
 // Define the join table which joins Users and Challenges
-var UserChallenge = orm.define('users-challenges', {
-  user_id: {
-    type: Sequelize.INTEGER
-  },
-
-  challenge_id: {
-    type: Sequelize.INTEGER
-  },
-
+var UserChallenge = orm.define('usersChallenges', {
   accepted: {
     type: Sequelize.BOOLEAN,
     defaultValue: false
@@ -110,9 +102,9 @@ User.belongsToMany(Challenge, {
   through: UserChallenge
 });
 
-Challenge.belongsToMany(User, {
-  through: UserChallenge
-});
+// Challenge.belongsToMany(User, {
+//   through: UserChallenge
+// });
 
 
 // make the database

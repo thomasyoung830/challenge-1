@@ -13,8 +13,7 @@ module.exports = {
 	    }
     })
     .then(function(results) {
-    	return results;
-
+    	return results[0].get({plain: true});
     })
 
     .catch(function() {
