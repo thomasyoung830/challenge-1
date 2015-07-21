@@ -4,6 +4,7 @@ angular.module('challengeApp.createChallenge', [])
   
   $scope.allUsers = [];
   $scope.challengeInfo = {};
+  $scope.challengeInfo.participants = [];
 
   // get array of all users in the database
   CreateChallengeFactory.getAllUsers().then(function(res){
@@ -13,14 +14,9 @@ angular.module('challengeApp.createChallenge', [])
     $scope.allUsers = res;
   });
 
-  // get the info of the person creating the challenge
-  CreateChallengeFactory.getCreatorInfo().then(function(res){
-    $scope.challengeInfo.creator = res.id;
-  });
-
   // method that takes the challengeInfo object as argument and calls the factory POST call
   $scope.postChallenge = function(challengeInfo){
-    challengeInfo.challengee = challengeInfo.challengee.id;
+    challengeInfo.participants.push( challengeInfo.challengee.id );
   };
 
 
