@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+var models = require('../models');
 
 /**
  * Check if user is logged in and return an error otherwise
@@ -11,7 +11,7 @@ var requires_login = function(req, res, next) {
   //   } else {
   //     next();
   //   }
-  
+
   // Disabled for now
   next();
 };
@@ -23,21 +23,29 @@ var requires_login = function(req, res, next) {
  * Requires login
  */
 router.get('/user_info', requires_login, function(req, res) {
+
+  var id = req.user.id;
+  console.log(req.user.id);
+
+  models.User.findOne({
+    where: {
+      id: id
+    }
+  })
+  .then(function(user) {
+    var data = user.get({plain: true});
+    res.json(data);
+  });
+
+  //Mock data
   // var data = {
-  //   'first_name': req.user.first_name,
-  //   'last_name': req.user.last_name,
-  //   'profile_image' : req.user.profile_image,
+  //   'id': 1,
+  //   'first_name': 'Randy',
+  //   'last_name': 'Savage',
+  //   'profile_image' : 'http://img.bleacherreport.net/img/images/photos/001/866/715/randy_savage_crop_north.png?w=377&h=251&q=75',
   // };
 
-  // Mock data
-  var data = {
-    'id': 1,
-    'first_name': 'Randy',
-    'last_name': 'Savage',
-    'profile_image' : 'http://img.bleacherreport.net/img/images/photos/001/866/715/randy_savage_crop_north.png?w=377&h=251&q=75',
-  };
-
-  res.json(data);
+  // res.json(data);
 });
 
 
@@ -46,20 +54,45 @@ router.get('/user_info', requires_login, function(req, res) {
  */
 router.get('/allUsers', function(req, res) {
 
-  var data = [{
-        "id": 1,
-        "first_name": "Randy",
-        "last_name": "Savage",
-        "profile_image" : "http://img.bleacherreport.net/img/images/photos/001/866/715/randy_savage_crop_north.png?w=377&h=251&q=75"
-      },
-      {
-        "id": 2,
-        "first_name": "Paul",
-        "last_name": "Newman",
-        "profile_image" : "http://i.dailymail.co.uk/i/pix/2008/09/28/article-1063705-02D517F700000578-321_468x524.jpg"
-      }];
+  models.User.findAll()
+    .then(function(users) {
+      console.log(users[0].get({plain: true}));
+      console.log(users[1].get({plain: true}));
+      var data = [];
+      var user = {};
+      for(var i = 0; i < users.length; i++) {
+        user.id = users[i].get('id');
+        user.first_name = users[i].get('first_name');
+        user.last_name = users[i].get('last_name');
+        user.email = users[i].get('email');
+        user.fb_id = users[i].get('fb_id');
+        user.createdAt = users[i].get('createdAt');
+        user.updatedAt = users[i].get('updatedAt');
+        data.push(user);
+        user = {};
+      }
 
-  res.json(data);
+      res.json(data);
+    })
+    .catch(function(err) {
+      throw new Error('Failed to GET at /allUsers route: ', err);
+    });
+
+  // Mock data
+  // var data = [{
+  //       "id": 1,
+  //       "first_name": "Randy",
+  //       "last_name": "Savage",
+  //       "profile_image" : "http://img.bleacherreport.net/img/images/photos/001/866/715/randy_savage_crop_north.png?w=377&h=251&q=75"
+  //     },
+  //     {
+  //       "id": 2,
+  //       "first_name": "Paul",
+  //       "last_name": "Newman",
+  //       "profile_image" : "http://i.dailymail.co.uk/i/pix/2008/09/28/article-1063705-02D517F700000578-321_468x524.jpg"
+  //     }];
+
+  // res.json(data);
 });
 
 
@@ -143,22 +176,22 @@ router.post('/challenge', requires_login, function(req, res) {
     return;
   }
 
-  // req.db.Challenge.create({
-  //   'title': form.title,
-  //   'message': form.message,
-  //   'wager': (form.wager !== undefined) ? form.wager : '',
-  //   'creator': req.user.id
-  // }).then(function(instance) {
-  //   res.status(201).json({
-  //     'id': instance.id,
-  //     'title': instance.title,
-  //     'message': instance.message,
-  //     'wager': instance.wager,
-  //     'url': instance.get_url()
-  //   });
-  // }, function(error) {
-  //   res.status(500).json({'error': 'EUNKNOWN', 'message': 'Challenge could not be created'});
-  // });
+  req.db.Challenge.create({
+    'title': form.title,
+    'message': form.message,
+    'wager': (form.wager !== undefined) ? form.wager : '',
+    'creator': req.user.id
+  }).then(function(instance) {
+    res.status(201).json({
+      'id': instance.id,
+      'title': instance.title,
+      'message': instance.message,
+      'wager': instance.wager,
+      'url': instance.get_url()
+    });
+  }, function(error) {
+    res.status(500).json({'error': 'EUNKNOWN', 'message': 'Challenge could not be created'});
+  });
 
 
   res.status(201).json({

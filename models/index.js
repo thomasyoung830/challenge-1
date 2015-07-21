@@ -11,7 +11,7 @@ var orm = new Sequelize('ChallengeDb', 'app', pass, {
     idle: 3000
   },
 
-  storage: '../db/ChallengeDb.sqlite'
+  storage: './ChallengeDb.sqlite'
 });
 
 orm.authenticate()
