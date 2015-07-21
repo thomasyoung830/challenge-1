@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+var models = require('../models');
 
 /**
  * Check if user is logged in and return an error otherwise
@@ -11,7 +11,7 @@ var requires_login = function(req, res, next) {
   //   } else {
   //     next();
   //   }
-  
+
   // Disabled for now
   next();
 };
@@ -23,15 +23,25 @@ var requires_login = function(req, res, next) {
  * Requires login
  */
 router.get('/user_info', requires_login, function(req, res) {
-  var data = {
-    'id': req.user.id,
-    'first_name': req.user.first_name,
-    'last_name': req.user.last_name,
-    'email' : req.user.email,
-    'profile_image': '/img/placeholder.jpg'
-  };
 
-  res.json(data);
+  models.User.findOne({
+    where: {
+      id: req.user.id
+    }
+  })
+  .then(function(user) {
+    res.json(user.get({plain: true}));
+  });
+
+  //Mock data
+  // var data = {
+  //   'id': 1,
+  //   'first_name': 'Randy',
+  //   'last_name': 'Savage',
+  //   'profile_image' : 'http://img.bleacherreport.net/img/images/photos/001/866/715/randy_savage_crop_north.png?w=377&h=251&q=75',
+  // };
+
+  // res.json(data);
 });
 
 
@@ -40,20 +50,42 @@ router.get('/user_info', requires_login, function(req, res) {
  */
 router.get('/allUsers', function(req, res) {
 
-  var data = [{
-        "id": 1,
-        "first_name": "Randy",
-        "last_name": "Savage",
-        "profile_image" : "http://img.bleacherreport.net/img/images/photos/001/866/715/randy_savage_crop_north.png?w=377&h=251&q=75"
-      },
-      {
-        "id": 2,
-        "first_name": "Paul",
-        "last_name": "Newman",
-        "profile_image" : "http://i.dailymail.co.uk/i/pix/2008/09/28/article-1063705-02D517F700000578-321_468x524.jpg"
-      }];
+  models.User.findAll()
+    .then(function(users) {
+      var data = [];
+      for(var i = 0; i < users.length; i++) {
+        data.push({
+          id: users[i].get('id'),
+          first_name: users[i].get('first_name'),
+          last_name: users[i].get('last_name'),
+          email: users[i].get('email'),
+          fb_id: users[i].get('fb_id'),
+          createdAt: users[i].get('createdAt'),
+          updatedAt: users[i].get('updatedAt')
+        });
+      }
 
-  res.json(data);
+      res.json(data);
+    })
+    .catch(function(err) {
+      throw new Error('Failed to GET at /allUsers route: ', err);
+    });
+
+  // Mock data
+  // var data = [{
+  //       "id": 1,
+  //       "first_name": "Randy",
+  //       "last_name": "Savage",
+  //       "profile_image" : "http://img.bleacherreport.net/img/images/photos/001/866/715/randy_savage_crop_north.png?w=377&h=251&q=75"
+  //     },
+  //     {
+  //       "id": 2,
+  //       "first_name": "Paul",
+  //       "last_name": "Newman",
+  //       "profile_image" : "http://i.dailymail.co.uk/i/pix/2008/09/28/article-1063705-02D517F700000578-321_468x524.jpg"
+  //     }];
+
+  // res.json(data);
 });
 
 
