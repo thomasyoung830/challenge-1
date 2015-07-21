@@ -1,0 +1,8 @@
+.nav > li > .navbar-profile {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.navbar-nav.navbar-right, .navbar-nav.navbar-right:last-child {
+  margin-right: 0;
+}

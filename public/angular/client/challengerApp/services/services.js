@@ -4,13 +4,22 @@ angular.module('challengeApp.services', [])
   var getUserInfo = function() {
     return $http.get('/api/1/user_info').then(function(data) {
       return data.data;
-    }, function(data) {
-      throw Error(data);
+    }, function(error) {
+      throw Error(error);
+    });
+  };
+
+  var logout = function() {
+    return $http.get('/auth/logout').then(function() {
+      return true;
+    }, function(error) {
+      throw Error(error);
     });
   };
 
   return {
     'getUserInfo': getUserInfo,
+    'logout': logout
   };
 })
 
