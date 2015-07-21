@@ -14,8 +14,13 @@ angular.module('challengeApp.challenge', [])
         // $scope.challengeData.description = res.message;
     });
   };
+
   $scope.getChallengeInfo($stateParams.challengeId);
 
+  $scope.acceptChallenge = function() {
+    ChallengeFactory.acceptChallenge();
+  };
 
+  $scope.
 
 });
