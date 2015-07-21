@@ -3,6 +3,6 @@
   padding-bottom: 0;
 }
 
-.navbar-right {
+.navbar-nav.navbar-right, .navbar-nav.navbar-right:last-child {
   margin-right: 0;
 }
