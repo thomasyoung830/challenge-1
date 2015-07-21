@@ -24,17 +24,13 @@ var requires_login = function(req, res, next) {
  */
 router.get('/user_info', requires_login, function(req, res) {
 
-  var id = req.user.id;
-  console.log(req.user.id);
-
   models.User.findOne({
     where: {
-      id: id
+      id: req.user.id
     }
   })
   .then(function(user) {
-    var data = user.get({plain: true});
-    res.json(data);
+    res.json(user.get({plain: true}));
   });
 
   //Mock data
@@ -56,20 +52,17 @@ router.get('/allUsers', function(req, res) {
 
   models.User.findAll()
     .then(function(users) {
-      console.log(users[0].get({plain: true}));
-      console.log(users[1].get({plain: true}));
       var data = [];
-      var user = {};
       for(var i = 0; i < users.length; i++) {
-        user.id = users[i].get('id');
-        user.first_name = users[i].get('first_name');
-        user.last_name = users[i].get('last_name');
-        user.email = users[i].get('email');
-        user.fb_id = users[i].get('fb_id');
-        user.createdAt = users[i].get('createdAt');
-        user.updatedAt = users[i].get('updatedAt');
-        data.push(user);
-        user = {};
+        data.push({
+          id: users[i].get('id'),
+          first_name: users[i].get('first_name'),
+          last_name: users[i].get('last_name'),
+          email: users[i].get('email'),
+          fb_id: users[i].get('fb_id'),
+          createdAt: users[i].get('createdAt'),
+          updatedAt: users[i].get('updatedAt')
+        });
       }
 
       res.json(data);
