@@ -21,6 +21,5 @@ angular.module('challengeApp.challenge', [])
     ChallengeFactory.acceptChallenge();
   };
 
-  $scope.
 
 });

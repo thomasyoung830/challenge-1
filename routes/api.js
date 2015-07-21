@@ -42,6 +42,28 @@ router.get('/user_info', requires_login, function(req, res) {
 
 
 /**
+ * Endpoint to get a list of all users
+ */
+router.get('/allUsers', function(req, res) {
+
+  var data = [{
+        "id": 1,
+        "first_name": "Randy",
+        "last_name": "Savage",
+        "profile_image" : "http://img.bleacherreport.net/img/images/photos/001/866/715/randy_savage_crop_north.png?w=377&h=251&q=75"
+      },
+      {
+        "id": 2,
+        "first_name": "Paul",
+        "last_name": "Newman",
+        "profile_image" : "http://i.dailymail.co.uk/i/pix/2008/09/28/article-1063705-02D517F700000578-321_468x524.jpg"
+      }];
+
+  res.json(data);
+});
+
+
+/**
  * Endpoint to get a list of challenges associated with currently logged in user
  *
  * Requires login
