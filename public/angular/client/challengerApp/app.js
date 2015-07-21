@@ -2,7 +2,6 @@ angular.module('challengeApp', [
   'challengeApp.challenge',
   'challengeApp.createChallenge',
   'challengeApp.completedChallenges',
-  'challengeApp.auth',
   'challengeApp.recentChallenges',
   'challengeApp.services',
   'ui.router'
@@ -10,20 +9,13 @@ angular.module('challengeApp', [
 
 .config(function($stateProvider, $urlRouterProvider) {
     
-  $urlRouterProvider.otherwise('angular/client/challengerApp/signin');
+  $urlRouterProvider.otherwise('/signin');
     
   $stateProvider
       // HOME STATES AND NESTED VIEWS ========================================
     .state('signin', {
-        url: '/signin',
-        templateUrl: 'angular/client/challengerApp/signin.html',
-        controller: 'SigninController'
-    })
-
-    .state('signup', {
-        url: '/signup',
-        templateUrl: 'angular/client/challengerApp/signup.html',
-        controller: 'SignupController'
+      url: '/signin',
+      templateUrl: 'angular/client/challengerApp/auth/signin.html',
     })
 
     .state('completed', {
@@ -62,8 +54,16 @@ angular.module('challengeApp', [
         // }
     });
 
-}); // closes $routerApp.config()
+}).controller('ChallengeAppController', function($scope, $state, Auth) {
+  $scope.user = null;
 
+  $scope.setCurrentUser = function() {
+    Auth.getUserInfo().then(function(user) {
+      $scope.user = user;
+    }, function() {
+      $state.go('signin');
+    });
+  };
 
-    
-        
+  $scope.setCurrentUser();
+});

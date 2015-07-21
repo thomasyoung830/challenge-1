@@ -15,7 +15,7 @@
 </head>
 
 <!-- apply our angular app to our site -->
-<body ng-app="challengeApp">
+<body ng-app="challengeApp" ng-controller='ChallengeAppController'>
 
 <!-- NAVIGATION -->
 <nav class="navbar navbar-inverse" role="navigation">
@@ -35,7 +35,6 @@
     <div ui-view></div>
 
 </div>
-<script src="angular/client/challengerApp/auth/auth.js"></script>
 <script src="angular/client/challengerApp/challenge/challenge.js"></script>
 <script src="angular/client/challengerApp/completed/completed.js"></script>
 <script src="angular/client/challengerApp/create/create.js"></script>
