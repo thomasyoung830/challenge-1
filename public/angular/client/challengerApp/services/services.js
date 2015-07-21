@@ -52,4 +52,37 @@ angular.module('challengeApp.services', [])
     acceptChallenge: acceptChallenge,
     challengeCompleted: challengeCompleted
 	};
+})
+
+.factory('CreateChallengeFactory', function($http){
+	var getAllUsers = function(){
+		return $http({
+		  method: 'GET',
+		  url: '/api/1/allUsers',
+		}).then(function(resp){
+			console.log("this is the getAllUsers resp", resp);
+		  return resp.data;
+		});
+	};
+
+	var getCreatorInfo = function(){
+		return $http({
+		  method: 'GET',
+		  url: '/api/1/user_info',
+		}).then(function(resp){
+			console.log("this is the getCreatorInfo resp", resp);
+		  return resp.data;
+		});
+	};
+
+	// POST method for creating a challenge
+
+
+
+	return {
+		getAllUsers: getAllUsers,
+		getCreatorInfo: getCreatorInfo
+	};
 });
+
+

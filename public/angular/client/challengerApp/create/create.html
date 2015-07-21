@@ -1,3 +1,7 @@
 <div id='container'>
-  <!-- Your html here -->
+  <input type="text" ng-model="challengeInfo.title" /><br/>
+  <label>Who do you want to challenge?
+    <select ng-model="challengeInfo.challengee" ng-options="user.name for user in allUsers"></select>
+  </label>
+  <div>Currently selected challengee: {{ challengeInfo.challengee }}</div>
 </div>

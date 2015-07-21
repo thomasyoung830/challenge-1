@@ -34,8 +34,8 @@ angular.module('challengeApp', [
 
     .state('create', {
         url: '/create',
-        templateUrl: 'create.html',
-        controller: 'createChallengeController'
+        templateUrl: 'angular/client/challengerApp/create/create.html',
+        controller: 'CreateChallengeController'
     })
     // Challenge PAGE AND MULTIPLE NAMED VIEWS =================================
     .state('challenge', {
