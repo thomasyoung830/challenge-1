@@ -25,7 +25,8 @@ POST /challenge
 * Requires authentication
 * POST data: {
 *  'title':\<str:min_length=3>, 'message':\<str:min_length=3>,
-*  'participants':[{'id':\<int>},],
+*  'creator':{'id':\<int>},
+*  'challengee':{'id':\<int>},
 *  'wager':\<str:optional>, 
 * }
 * Returns new \<Challenge>

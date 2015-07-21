@@ -31,7 +31,7 @@ router.get('/user_info', requires_login, function(req, res) {
 
   // Mock data
   var data = {
-    // 'id': 1,
+    'id': 1,
     'first_name': 'Randy',
     'last_name': 'Savage',
     'profile_image' : 'http://img.bleacherreport.net/img/images/photos/001/866/715/randy_savage_crop_north.png?w=377&h=251&q=75',
