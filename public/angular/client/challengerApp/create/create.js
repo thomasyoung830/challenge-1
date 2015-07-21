@@ -18,7 +18,7 @@ angular.module('challengeApp.createChallenge', [])
   $scope.postChallenge = function(challengeInfo){
     challengeInfo.participants.push( $scope.challengeInfo.challengee.id );
     CreateChallengeFactory.postChallenge($scope.challengeInfo).then(function(res){
-      $state.go('/challenge/' + res.id);
+      $state.go('challenge', {'challengeId': res.id});
     });
   };
 
