@@ -28,7 +28,7 @@
         <li><a ui-sref="about">About</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right" ng-show="user">
-        <li><a class="navbar-profile" ui-sref="profile"><img src="/img/placeholder.jpg" style="height:50px;"></a></li>
+        <li><a class="navbar-profile" ui-sref="profile"><img src="{{user.profile_image}}" style="height:50px;"></a></li>
         <li><a ui-sref="signout">Logout</a>
     </ul>
     <ul class="nav navbar-nav navbar-right" ng-hide="user">

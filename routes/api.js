@@ -28,7 +28,7 @@ router.get('/user_info', requires_login, function(req, res) {
     'first_name': req.user.first_name,
     'last_name': req.user.last_name,
     'email' : req.user.email,
-    'profile_image': ''
+    'profile_image': '/img/placeholder.jpg'
   };
 
   res.json(data);
