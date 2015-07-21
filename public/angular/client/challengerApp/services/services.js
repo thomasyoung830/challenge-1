@@ -83,7 +83,7 @@ angular.module('challengeApp.services', [])
 
   // POST method for creating a challenge
   var postChallenge = function(challengeInfo){
-  	return $http({
+    return $http({
       method: 'POST',
       url: '/api/1/challenge',
       data: challengeInfo
