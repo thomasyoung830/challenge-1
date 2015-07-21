@@ -6,8 +6,8 @@ angular.module('challengeApp.challenge', [])
   
   $scope.getChallengeInfo = function(challengeId){
     ChallengeFactory.getChallengeInfo(challengeId).then(function(res){
-    	console.log(res);
-    	$scope.challengeData = res;
+      console.log(res);
+      $scope.challengeData = res;
         // $scope.challengeData.creator = res.creator;
         // // $scope.challengeData.participants = res.participants[0].id;
         // $scope.challengeData.title = res.title;
