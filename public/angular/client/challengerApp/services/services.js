@@ -1,20 +1,17 @@
 angular.module('challengeApp.services', [])
 
 .factory('Auth', function ($http) {
-  // Your code here
-  var getUserInfo = function() {
-  	return $http({
-  		method: 'GET',
-  		url: '/user_info/', 
-  	}).then(function(resp){
-  		console.log("this is resp", resp);
-  		return resp.data;
-  	});
-  };
+	var getUserInfo = function() {
+		return $http.get('/api/1/user_info').then(function(data) {
+			return data.data;
+		}, function(data) {
+			throw Error(data);
+		});
+	};
 
-  return {
-  	getUserInfo: getUserInfo
-  };
+	return {
+		'getUserInfo': getUserInfo,
+	};
 })
 
 .factory('ChallengeFactory', function($http){
