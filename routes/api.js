@@ -23,18 +23,12 @@ var requires_login = function(req, res, next) {
  * Requires login
  */
 router.get('/user_info', requires_login, function(req, res) {
-  // var data = {
-  //   'first_name': req.user.first_name,
-  //   'last_name': req.user.last_name,
-  //   'profile_image' : req.user.profile_image,
-  // };
-
-  // Mock data
   var data = {
-    'id': 1,
-    'first_name': 'Randy',
-    'last_name': 'Savage',
-    'profile_image' : 'http://img.bleacherreport.net/img/images/photos/001/866/715/randy_savage_crop_north.png?w=377&h=251&q=75',
+    'id': req.user.id,
+    'first_name': req.user.first_name,
+    'last_name': req.user.last_name,
+    'email' : req.user.email,
+    'profile_image': ''
   };
 
   res.json(data);

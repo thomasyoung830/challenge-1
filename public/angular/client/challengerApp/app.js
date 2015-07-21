@@ -18,6 +18,14 @@ angular.module('challengeApp', [
       templateUrl: 'angular/client/challengerApp/auth/signin.html',
     })
 
+    .state('signout', {
+      url: '/signout',
+      controller: function($scope, $state) {
+        $scope.logout();
+        $state.go('signin');
+      }
+    })
+
     .state('completed', {
         url: '/completed',
         templateUrl: 'angular/client/challengerApp/completed.html',
@@ -62,6 +70,12 @@ angular.module('challengeApp', [
       $scope.user = user;
     }, function() {
       $state.go('signin');
+    });
+  };
+
+  $scope.logout = function() {
+    Auth.logout().then(function() {
+      $scope.user = null;
     });
   };
 
