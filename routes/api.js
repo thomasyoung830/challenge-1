@@ -109,9 +109,33 @@ router.get('/challenge/user', requires_login, function(req, res) {
 router.get('/challenge/public', function(req, res) {
   // var data = req.db.Challenge.publicList();
 
-  var data = require('../specs/server/mock_challenge_list.json');
+  // var data = require('../specs/server/mock_challenge_list.json');
 
-  res.json(data);
+  // res.json(data);
+
+  models.Challenge.findAll({ limit: 10 , order: [['createdAt', 'DESC']]}) // must pass an array of tuples
+    .then(function(challenges) {
+      var data = [];
+      for(var i = 0; i < challenges.length; i++) {
+        data.push({
+          id: challenges[i].get('id'),
+          title: challenges[i].get('title'),
+          message: challenges[i].get('message'),
+          wager: challenges[i].get('wager'),
+          creator: challenges[i].get('creator'),
+          winner:  challenges[i].get('winner'),
+          complete: challenges[i].get('complete'),
+          started: challenges[i].get('started'),
+          createdAt: challenges[i].get('createdAt'),
+          updatedAt: challenges[i].get('updatedAt')
+        });
+      }
+
+      res.json(data);
+    })
+    .catch(function(err) {
+      throw new Error('Failed to GET at /challenge/public route: ', err);
+    });
 });
 
 
@@ -122,19 +146,35 @@ router.get('/challenge/:id', function(req, res) {
   var target_id = parseInt(req.params.id);
   // var data = req.db.Challenge.findById(req.params.id);
 
-  var data;
-  require('../specs/server/mock_challenge_list.json').forEach(function(challenge) {
-    if(challenge.id === target_id) {
-      data = challenge;
-      return;
-    }
-  });
-  if (data === undefined) {
-    res.status(400);
-    data = {'error': 'ENOTFOUND', 'message': 'Could not find challenge with the id: ' + target_id};
-  }
+  models.Challenge.findOne({where: {id: target_id}})
+    .then(function(challenge) {
+      res.json({
+        id: challenge.get('id'),
+        title: challenge.get('title'),
+        message: challenge.get('message'),
+        wager: challenge.get('wager'),
+        creator: challenge.get('creator'),
+        winner: challenge.get('winner'),
+        complete: challenge.get('complete'),
+        started: challenge.get('started'),
+        createdAt: challenge.get('createdAt'),
+        updatedAt: challenge.get('updatedAt')
+      });
+    });
 
-  res.json(data);
+  // var data;
+  // require('../specs/server/mock_challenge_list.json').forEach(function(challenge) {
+  //   if(challenge.id === target_id) {
+  //     data = challenge;
+  //     return;
+  //   }
+  // });
+  // if (data === undefined) {
+  //   res.status(400);
+  //   data = {'error': 'ENOTFOUND', 'message': 'Could not find challenge with the id: ' + target_id};
+  // }
+
+  // res.json(data);
 });
 
 
@@ -164,50 +204,30 @@ var challenge_form_is_valid = function(form) {
 router.post('/challenge', requires_login, function(req, res) {
   var form = req.body;
 
-  // CONSOLE LOG
-  console.log(form);
-  // CONSOLE LOG
-
+  // validate form
   if (!challenge_form_is_valid(form)) {
     res.status(400).json({'error': 'EINVALID', 'message': 'Submitted form is invalid.'});
     return;
   }
-  // models.User.findOne({where: {id: req.user.id}})
-  //   .then(function(user) {
 
   // Create the challenge
-      models.Challenge.create({
-        title: form.title,
-        message: form.message,
-        wager: form.wager,
-        creator: req.user.id,
-        date_started: new Date()
-      })
-      .then(function(challenge) {
-        models.User.findOne({
-          where: {id: req.user.id}
-        })
-        // If creation succesful, link it to the creator and set creator's usersChallenges 'accepted' to true
-        .then(function(user) {
-          user.addChallenge(challenge, {accepted: true});
-          // link it to each participant and set their usersChallenges 'accepted' to false (should be false by default)
-          form.participants.forEach(function(userId) {
-            models.User.findOne({where: {id: userId}})
-              .then(function(user) {
-                user.addChallenge(challenge, {accepted: false});
-              });
-          });
+  models.Challenge.create({
+    title: form.title,
+    message: form.message,
+    wager: form.wager,
+    creator: req.user.id,
+    date_started: new Date()
+  })
+  .then(function(challenge) {
+    challenge.addParticipants(form.participants); // form.participants should be an array
+    challenge.addParticipant([req.user.id], {accepted: true}); // links creator of challenge
 
-          // return 201 response with challenge object attributes
-          res.status(201).json({
-            id: challenge.id
-          });
-        });
-      });
+    res.status(201).json({
+      id: challenge.id
+    });
+  });
 
-    // });
-
-    // TODO: add catch statements to handle errors
+   // TODO: add catch statements to handle errors
 
   // req.db.Challenge.create({
   //   'title': form.title,
