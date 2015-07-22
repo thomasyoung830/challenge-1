@@ -13,7 +13,16 @@ router.get('/logout', function(req, res) {
   }
 });
 
-router.get('/login', passport.authenticate('facebook', {'scope': ['email', 'user_friends']}));
+router.get('/login', function(req, res, next) {
+  if (process.env.TESTING) {
+    req.login({id:1}, function() {
+      res.send();
+    });
+    return;
+  }
+  next();
+}, passport.authenticate('facebook', {'scope': ['email', 'user_friends']}));
+
 router.get('/facebook/callback', passport.authenticate('facebook'), function(req, res) {
   var query = {
     'include': {
