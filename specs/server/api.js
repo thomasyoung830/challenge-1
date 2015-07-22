@@ -205,7 +205,7 @@ describe('Api integration tests', function() {
       var uri = '/api/1/challenge/1/complete';
       var data = {'winner': 1};
 
-      request({'uri':uri, 'method':'PUT', 'json':data}, function(err, res, body) {
+      api_request({'uri':uri, 'method':'PUT', 'json':data}, function(err, res, body) {
         expect(body).to.be.an('object');
         expect(body.success).to.be.true;
         done();
@@ -214,8 +214,9 @@ describe('Api integration tests', function() {
 
     it('shouldn\'t be able to complete a challenge that has already been completed', function(done) {
       var uri = '/api/1/challenge/1/complete';
+      var data = {'winner': 1};
 
-      api_request({'uri':uri, 'method':'PUT', 'json':true}, function(err, res, body) {
+      api_request({'uri':uri, 'method':'PUT', 'json':data}, function(err, res, body) {
         expect(res.statusCode).to.eql(400);
         expect(body).to.be.an('object');
         expect(body).to.have.all.keys(['error', 'message']);
