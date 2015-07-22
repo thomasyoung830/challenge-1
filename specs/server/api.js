@@ -121,12 +121,9 @@ describe('Api integration tests', function() {
         ]);
         expect(body[0].participants).to.be.an('array');
         expect(body[0].participants).to.have.length(2);
-        expect(body[0].participants[0]).to.contain.all.keys([
+        expect(body[0].participants[0]).to.contain.keys([
           'id', 'first_name', 'last_name', 'accepted'
         ]);
-        expect(body[0].participants[0].accepted).to.be.true;
-        expect(body[0].participants[1].id).to.eql(2);
-        expect(body[0].participants[1].accepted).to.be.false;
         done();
       });
     });
