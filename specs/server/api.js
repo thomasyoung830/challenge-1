@@ -2,7 +2,16 @@ var expect = require('chai').expect;
 var request = require('request');
 var http = require('http');
 
+process.env.DATABASE_URL = 'sqlite://test.sqlite';
+process.env.TESTING = true;
+
 var app = require('../../app');
+var models = require('../../models');
+
+var api_request = request.defaults({
+  'jar': true,
+  'baseUrl': 'http://localhost:3030'
+});
 
 describe('Api integration tests', function() {
   before(function(done) {
