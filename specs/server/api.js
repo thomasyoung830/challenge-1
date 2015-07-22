@@ -99,26 +99,20 @@ describe('Api integration tests', function() {
   });
 
   describe('Authenticated routes', function() {
-    // YEAH RIGHT FACBOOK LOGIN
-    // it('should be able to sign up for an account', function(done) {
-
-    // });
-    // it('should be able to login', function(done) {
-
-    // });
-
     before(function(done) {
-      models.User.bulkCreate([{
-        'id': 1,
-        'first_name': 'Randy',
-        'last_name': 'Savage',
-        'fb_id': '1'
-      }, {
-        'id': 2,
-        'first_name': 'Paul',
-        'last_name': 'Newman',
-        'fb_id': '2'
-      }]).then(function() {
+      models.orm.drop().then(function() {return models.orm.sync();}).then(function() {
+        return models.User.bulkCreate([{
+          'id': 1,
+          'first_name': 'Randy',
+          'last_name': 'Savage',
+          'fb_id': '1'
+        }, {
+          'id': 2,
+          'first_name': 'Paul',
+          'last_name': 'Newman',
+          'fb_id': '2'
+        }]);
+      }).then(function() {
         api_request({'uri': '/auth/login'}, function(err, res, body) {
           done();
         });
