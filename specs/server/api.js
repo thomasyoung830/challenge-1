@@ -29,8 +29,8 @@ describe('Api integration tests', function() {
 
   describe('Unauthenticated routes', function() {
     it('should retrieve a specific challenge', function(done) {
-      var uri = 'http://localhost:3030/api/1/challenge/1';
-      request({'uri':uri, 'json':true}, function(err, res, body) {
+      var uri = '/api/1/challenge/1';
+      api_request({'uri':uri, 'json':true}, function(err, res, body) {
         expect(body).to.be.an('object');
         expect(body.id).to.equal(1);
         expect(body.participants.length).to.be.above(0);
@@ -39,8 +39,8 @@ describe('Api integration tests', function() {
     });
 
     it('should retrieve a list of public challenges', function(done) {
-      var uri = 'http://localhost:3030/api/1/challenge/public';
-      request({'uri':uri, 'json':true}, function(err, res, body) {
+      var uri = '/api/1/challenge/public';
+      api_request({'uri':uri, 'json':true}, function(err, res, body) {
         expect(body).to.be.an('array');
         expect(body[0].participants.length).to.be.above(0);
         done();
