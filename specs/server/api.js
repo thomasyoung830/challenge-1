@@ -132,19 +132,28 @@ describe('Api integration tests', function() {
     });
 
     it('should be able to start a challenge', function(done) {
-      var uri = 'http://localhost:3030/api/1/challenge/3/started';
+      var query = {
+        'where': {
+          'challengeId': 1,
+          'userId': 2
+        }
+      };
+      models.UserChallenge.update({'accepted': true}, query).then(function() {
+        var uri = '/api/1/challenge/1/started';
 
-      request({'uri':uri, 'method':'PUT', 'json':true}, function(err, res, body) {
-        expect(body).to.be.an('object');
-        expect(body.success).to.be.true;
-        done();
+        api_request({'uri':uri, 'method':'PUT', 'json':true}, function(err, res, body) {
+          expect(body).to.be.an('object');
+          expect(body.success).to.be.true;
+          done();
+        });
       });
     });
 
     it('shouldn\'t be able to start a challenge that has already been started', function(done) {
-      var uri = 'http://localhost:3030/api/1/challenge/1/started';
+      var uri = '/api/1/challenge/1/started';
 
-      request({'uri':uri, 'method':'PUT', 'json':true}, function(err, res, body) {
+      api_request({'uri':uri, 'method':'PUT', 'json':true}, function(err, res, body) {
+        expect(res.statusCode).to.eql(400);
         expect(body).to.be.an('object');
         expect(body).to.have.all.keys(['error', 'message']);
         done();
