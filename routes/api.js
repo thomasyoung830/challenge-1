@@ -388,7 +388,7 @@ router.put('/challenge/:id/complete', requires_login, function(req, res) {
   // } else {
   //   res.json({'success': true});
   // }
-
+});
 
 router.put('/challenge/:id/accept', requires_login, function(req, res) {
   var target_id = parseInt(req.params.id);
