@@ -164,10 +164,53 @@ var challenge_form_is_valid = function(form) {
 router.post('/challenge', requires_login, function(req, res) {
   var form = req.body;
 
+  // CONSOLE LOG
+  console.log(form);
+  // CONSOLE LOG
+
   if (!challenge_form_is_valid(form)) {
     res.status(400).json({'error': 'EINVALID', 'message': 'Submitted form is invalid.'});
     return;
   }
+
+  // Create the challenge
+  models.User.findOne({where: {id: req.user.id}})
+    .then(function(user) {
+      models.Challenge.create({
+        title: form.title,
+        message: form.message,
+        wager: form.wager,
+        creator: user.get('id'),
+        date_started: new Date()
+      })
+      .then(function(challenge) {
+        models.User.findOne({
+          where: {id: user.get('id')}
+        })
+        // If creation succesful, link it to the creator and set creator's usersChallenges 'accepted' to true
+        .then(function(user) {
+          user.addChallenge(challenge, {accepted: true});
+          // link it to each participant and set their usersChallenges 'accepted' to false (should be false by default)
+          form.participants.forEach(function(userId) {
+            models.User.findOne({where: {id: userId}})
+              .then(function(user) {
+                user.addChallenge(challenge, {accepted: false});
+              });
+          });
+
+          // return 201 response with challenge object attributes
+          res.status(201).json({
+            id: challenge.id,
+            title: challenge.title,
+            message: challenge.message,
+            wager: challenge.wager,
+            url: '/challenge/' + challenge.url_id
+          });
+        });
+      });
+    });
+
+    // TODO: add catch statements to handle errors
 
   // req.db.Challenge.create({
   //   'title': form.title,
@@ -187,13 +230,13 @@ router.post('/challenge', requires_login, function(req, res) {
   // });
 
 
-  res.status(201).json({
-    'id': 4,
-    'title': form.title,
-    'message': form.message,
-    'wager': form.wager || '',
-    'url': '/challenge/4'
-  });
+  // res.status(201).json({
+  //   'id': 4,
+  //   'title': form.title,
+  //   'message': form.message,
+  //   'wager': form.wager || '',
+  //   'url': '/challenge/4'
+  // });
 });
 
 
