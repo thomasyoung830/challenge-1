@@ -106,6 +106,30 @@ describe('Api integration tests', function() {
       });
     });
 
+    it('should be able to retrieve a list of challenges associated with currently logged in user', function(done) {
+      var uri = '/api/1/challenge/user';
+
+      api_request({'uri':uri, 'json':true}, function(err, res, body) {
+        expect(body).to.be.an('array');
+        expect(body).to.not.be.empty;
+        expect(body[0].id).to.eql(1);
+        expect(body[0]).to.contain.all.keys([
+          'id', 'title', 'message', 'url',
+          'creator', 'started', 'complete', 'winner',
+          'date_created', 'date_started', 'date_completed',
+          'participants'
+        ]);
+        expect(body[0].participants).to.be.an('array');
+        expect(body[0].participants).to.have.length(2);
+        expect(body[0].participants[0]).to.contain.all.keys([
+          'id', 'first_name', 'last_name', 'accepted'
+        ]);
+        expect(body[0].participants[0].accepted).to.be.true;
+        expect(body[0].participants[1].id).to.eql(2);
+        expect(body[0].participants[1].accepted).to.be.false;
+        done();
+      });
+    });
 
     it('should be able to start a challenge', function(done) {
       var uri = 'http://localhost:3030/api/1/challenge/3/started';
