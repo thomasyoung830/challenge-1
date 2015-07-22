@@ -224,7 +224,7 @@ router.post('/challenge', requires_login, function(req, res) {
     message: form.message,
     wager: form.wager,
     creator: req.user.id,
-    date_started: new Date()
+    date_started: Date.now()
   })
   .then(function(challenge) {
     challenge.addParticipants(form.participants); // form.participants should be an array

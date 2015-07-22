@@ -10,3 +10,5 @@ public/lib/*.js
 npm-debug.log
 
 sessions/
+
+*.DS_Store
