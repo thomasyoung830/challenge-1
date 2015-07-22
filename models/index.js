@@ -11,7 +11,7 @@ var orm = new Sequelize('ChallengeDb', 'app', pass, {
     idle: 3000
   },
 
-  storage: './ChallengeDb.sqlite'
+  storage: 'ChallengeDb.sqlite'
 });
 
 orm.authenticate()
@@ -103,7 +103,8 @@ User.belongsToMany(Challenge, {
 });
 
 Challenge.belongsToMany(User, {
-  through: UserChallenge
+  through: UserChallenge,
+  as: 'participants'
 });
 
 
