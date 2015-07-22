@@ -77,10 +77,22 @@ describe('Api integration tests', function() {
     });
 
     it('should retrieve a list of public challenges', function(done) {
-      var uri = '/api/1/challenge/public';
-      api_request({'uri':uri, 'json':true}, function(err, res, body) {
+      var uri = 'http://localhost:3030/api/1/challenge/public';
+      request({'uri':uri, 'json':true}, function(err, res, body) {
         expect(body).to.be.an('array');
-        expect(body[0].participants.length).to.be.above(0);
+        expect(body).to.not.be.empty;
+        expect(body[0].id).to.eql(1);
+        expect(body[0]).to.contain.all.keys([
+          'id', 'title', 'message', 'url',
+          'creator', 'started', 'complete', 'winner',
+          'date_created', 'date_started', 'date_completed',
+          'participants'
+        ]);
+        expect(body[0].participants).to.be.an('array');
+        expect(body[0].participants).to.have.length.above(0);
+        expect(body[0].participants[0]).to.contain.keys([
+          'id', 'first_name', 'last_name', 'accepted'
+        ]);
         done();
       });
     });
