@@ -94,13 +94,14 @@ describe('Api integration tests', function() {
       var uri = 'http://localhost:3030/api/1/challenge';
       var data = {
         'title': 'There is text here',
-        'message': 'Here as well'
+        'message': 'Here as well',
+        'participants': [2]
       };
 
       request({'uri':uri, 'method':'POST', 'json':data}, function(err, res, body) {
         expect(body).to.be.an('object');
+        expect(body).to.contain.key('id');
         expect(body.id).to.be.a('number');
-        expect(body).to.have.all.keys(['id', 'title', 'message', 'wager', 'url']);
         done();
       });
     });
