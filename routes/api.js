@@ -97,9 +97,17 @@ router.get('/allUsers', function(req, res) {
 router.get('/challenge/user', requires_login, function(req, res) {
   // var data = req.db.Challenge.findByUser(req.user.id);
 
-  var data = require('../specs/server/mock_challenge_list.json');
+  models.User.findOne({where: {id: req.user.id}})
+  .then(function(user) {
+    user.getChallenges()
+      .then(function(challenges) {
+        res.json(challenges);
+      });
+  });
 
-  res.json(data);
+  // var data = require('../specs/server/mock_challenge_list.json');
+
+  // res.json(data);
 });
 
 
