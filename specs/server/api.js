@@ -81,10 +81,11 @@ describe('Api integration tests', function() {
       });
     });
 
-    xit('should be able to retrieve a list of challenges associated with currently logged in user', function(done) {
-      var uri = 'http://localhost:3030/api/1/challenge/user';
-      request({'uri':uri, 'json':true}, function(err, res, body) {
-        // tests here
+    it('should be able to retrieve user info', function(done) {
+      var uri = '/api/1/user_info';
+
+      api_request({'uri':uri, 'json':true}, function(err, res, body) {
+        expect(body).to.contain.all.keys(['id', 'first_name', 'last_name', 'email', 'profile_image']);
         done();
       });
     });
