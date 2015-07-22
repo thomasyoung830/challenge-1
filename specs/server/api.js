@@ -15,8 +15,8 @@ var api_request = request.defaults({
 
 describe('Api integration tests', function() {
   before(function(done) {
-    app.set('port', 3030);
     var server = http.createServer(app);
+    app.set('port', 3030);
     server.listen(3030);
     server.on('listening', function() {
       console.log('Listening on ' + 3030);
@@ -28,6 +28,34 @@ describe('Api integration tests', function() {
   });
 
   describe('Unauthenticated routes', function() {
+    before(function(done) {
+      models.orm.drop().then(function() {return models.orm.sync();}).then(function() {
+        return models.User.bulkCreate([{
+          'id': 1,
+          'first_name': 'Randy',
+          'last_name': 'Savage',
+          'fb_id': '1'
+        }, {
+          'id': 2,
+          'first_name': 'Paul',
+          'last_name': 'Newman',
+          'fb_id': '2'
+        }]);
+      }).then(function() {
+        return models.Challenge.create({'id':1, 'title':'test', 'message':'test', 'creator':1});
+      }).then(function(challenge) {
+        return challenge.addParticipant(1, {'accepted':true});
+      }).then(function() {
+        done();
+      });
+    });
+
+    after(function(done) {
+      models.orm.drop().then(function() {
+        done();
+      });
+    });
+
     it('should retrieve a specific challenge', function(done) {
       var uri = '/api/1/challenge/1';
       api_request({'uri':uri, 'json':true}, function(err, res, body) {
