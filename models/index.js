@@ -1,18 +1,5 @@
-var pass = '1234';
-
-var Sequelize = require('Sequelize');
-var orm = new Sequelize('ChallengeDb', 'app', pass, {
-  host: 'localhost',
-  dialect: 'sqlite',
-
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 3000
-  },
-
-  storage: 'ChallengeDb.sqlite'
-});
+var Sequelize = require('sequelize');
+var orm = new Sequelize(process.env.DATABASE_URL || 'sqlite://ChallengeDb.sqlite');
 
 orm.authenticate()
   // .then(function() {
