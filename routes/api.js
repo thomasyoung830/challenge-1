@@ -172,20 +172,20 @@ router.post('/challenge', requires_login, function(req, res) {
     res.status(400).json({'error': 'EINVALID', 'message': 'Submitted form is invalid.'});
     return;
   }
+  // models.User.findOne({where: {id: req.user.id}})
+  //   .then(function(user) {
 
   // Create the challenge
-  models.User.findOne({where: {id: req.user.id}})
-    .then(function(user) {
       models.Challenge.create({
         title: form.title,
         message: form.message,
         wager: form.wager,
-        creator: user.get('id'),
+        creator: req.user.id,
         date_started: new Date()
       })
       .then(function(challenge) {
         models.User.findOne({
-          where: {id: user.get('id')}
+          where: {id: req.user.id}
         })
         // If creation succesful, link it to the creator and set creator's usersChallenges 'accepted' to true
         .then(function(user) {
@@ -200,15 +200,12 @@ router.post('/challenge', requires_login, function(req, res) {
 
           // return 201 response with challenge object attributes
           res.status(201).json({
-            id: challenge.id,
-            title: challenge.title,
-            message: challenge.message,
-            wager: challenge.wager,
-            url: '/challenge/' + challenge.url_id
+            id: challenge.id
           });
         });
       });
-    });
+
+    // });
 
     // TODO: add catch statements to handle errors
 
