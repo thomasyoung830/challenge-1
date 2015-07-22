@@ -53,7 +53,7 @@ PUT /challenge/:id/accept
 
 
         <Challenge> = {
-          'id':<int>, 'title':<str>, 'message':<str>, 'url':<str>,
+          'id':<int>, 'title':<str>, 'message':<str>,
           'creator':<int>, 'started':<bool>, 'complete':<bool>, 'winner'<int>,
           'date_created':<date>, 'date_started':<date>, 'date_completed':<date>,
           'participants':[
