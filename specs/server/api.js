@@ -179,7 +179,7 @@ describe('Api integration tests', function() {
       });
     });
 
-    it('should be able to accept a challenge', function(done) {
+    xit('should be able to accept a challenge', function(done) {
       var uri = 'http://localhost:3030/api/1/challenge/3/accept';
 
       request({'uri':uri, 'method':'PUT', 'json':true}, function(err, res, body) {
@@ -189,7 +189,7 @@ describe('Api integration tests', function() {
       });
     });
 
-    it('shouldn\'t be able to accept a challenge that has already been accepted', function(done) {
+    xit('shouldn\'t be able to accept a challenge that has already been accepted', function(done) {
       var uri = 'http://localhost:3030/api/1/challenge/2/accept';
 
       request({'uri':uri, 'method':'PUT', 'json':true}, function(err, res, body) {
