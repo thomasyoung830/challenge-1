@@ -135,14 +135,14 @@ describe('Api integration tests', function() {
     });
 
     it('should be able to create a new challenge', function(done) {
-      var uri = 'http://localhost:3030/api/1/challenge';
+      var uri = '/api/1/challenge';
       var data = {
         'title': 'There is text here',
         'message': 'Here as well',
         'participants': [2]
       };
 
-      request({'uri':uri, 'method':'POST', 'json':data}, function(err, res, body) {
+      api_request({'uri':uri, 'method':'POST', 'json':data}, function(err, res, body) {
         expect(body).to.be.an('object');
         expect(body).to.contain.key('id');
         expect(body.id).to.be.a('number');
@@ -164,7 +164,7 @@ describe('Api integration tests', function() {
           'participants'
         ]);
         expect(body[0].participants).to.be.an('array');
-        expect(body[0].participants).to.have.length(2);
+        expect(body[0].participants).to.have.length.above(0);
         expect(body[0].participants[0]).to.contain.keys([
           'id', 'first_name', 'last_name', 'accepted'
         ]);
