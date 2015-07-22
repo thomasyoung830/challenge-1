@@ -1,4 +1,4 @@
-var Sequelize = require('Sequelize');
+var Sequelize = require('sequelize');
 var orm = new Sequelize(process.env.DATABASE_URL || 'sqlite://ChallengeDb.sqlite');
 
 orm.authenticate()
