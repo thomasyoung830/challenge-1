@@ -272,7 +272,31 @@ router.post('/challenge', requires_login, function(req, res) {
  */
 router.put('/challenge/:id/started', requires_login, function(req, res) {
   var target_id = parseInt(req.params.id);
+  var user_id = req.user.id;
+  //for testing
+  // var target_id = 2;
+  // var user_id = 1;
 
+  models.Challenge.update({
+    started: true,
+    date_started: Date.now()
+  }, {
+    where: {
+      id: target_id,
+      creator: user_id,
+      started: false,
+      complete: false
+    }
+  }).then(function() {
+    models.Challenge.findOne({where: {id: target_id}})
+    .then(function(challenge) {
+      if (challenge.get('started')) {
+        res.status(201).json({'success': true});
+      } else {
+        res.status(200).json({'success': false});
+      }
+    });
+  });
   // var query = {
   //   'where': {
   //     'id': target_id,
@@ -291,14 +315,14 @@ router.put('/challenge/:id/started', requires_login, function(req, res) {
   //   res.status(400).json({'error': 'ENOTFOUND', 'message': 'Could not find appropriate challenge with the id: ' + target_id});
   // });
 
-  var found = require('../specs/server/mock_challenge_list.json').some(function(challenge) {
-    return (challenge.id === target_id && !challenge.started);
-  });
-  if (!found) {
-    res.status(400).json({'error': 'ENOTFOUND', 'message': 'Could not find appropriate challenge with the id: ' + target_id});
-  } else {
-    res.json({'success': true});
-  }
+  // var found = require('../specs/server/mock_challenge_list.json').some(function(challenge) {
+  //   return (challenge.id === target_id && !challenge.started);
+  // });
+  // if (!found) {
+  //   res.status(400).json({'error': 'ENOTFOUND', 'message': 'Could not find appropriate challenge with the id: ' + target_id});
+  // } else {
+  //   res.json({'success': true});
+  // }
 });
 
 
@@ -309,7 +333,32 @@ router.put('/challenge/:id/started', requires_login, function(req, res) {
  */
 router.put('/challenge/:id/complete', requires_login, function(req, res) {
   var target_id = parseInt(req.params.id);
-  var winner = req.body.winner;
+  var winner = parseInt(req.body.winner);
+  //for testing
+  // var target_id = 2;
+  // var winner = 1;
+  // var userID = 1;
+
+  models.Challenge.update({
+    winner: winner,
+    complete: true
+  }, {
+    where: {
+      id: target_id,
+      creator: req.user.id,
+      started: true,
+      complete: false
+    }
+  }).then(function() {
+    models.Challenge.findOne({where: {id: target_id}})
+    .then(function(challenge) {
+      if (challenge.get('complete')) {
+        res.status(201).json({'success': true});
+      } else {
+        res.status(200).json({'success': false});
+      }
+    });
+  });
 
   // var query = {
   //   'where': {
@@ -331,19 +380,46 @@ router.put('/challenge/:id/complete', requires_login, function(req, res) {
   //   res.status(400).json({'error': 'ENOTFOUND', 'message': 'Could not find appropriate challenge with the id: ' + target_id});
   // });
 
-  var found = require('../specs/server/mock_challenge_list.json').some(function(challenge) {
-    return (challenge.id === target_id && challenge.started && !challenge.complete);
-  });
-  if (!found) {
-    res.status(400).json({'error': 'ENOTFOUND', 'message': 'Could not find appropriate challenge with the id: ' + target_id});
-  } else {
-    res.json({'success': true});
-  }
-});
+  // var found = require('../specs/server/mock_challenge_list.json').some(function(challenge) {
+  //   return (challenge.id === target_id && challenge.started && !challenge.complete);
+  // });
+  // if (!found) {
+  //   res.status(400).json({'error': 'ENOTFOUND', 'message': 'Could not find appropriate challenge with the id: ' + target_id});
+  // } else {
+  //   res.json({'success': true});
+  // }
 
 
 router.put('/challenge/:id/accept', requires_login, function(req, res) {
   var target_id = parseInt(req.params.id);
+  var user_id = req.user.id;
+  //for testing
+  // var target_id = 2;
+  // var user_id = 2;
+
+  models.UserChallenge.update({
+    accepted: true
+  }, {
+    where: {
+      challengeId: target_id,
+      userId: user_id,
+      accepted: false
+    }
+  }).then(function() {
+    models.UserChallenge.findOne({
+      where: {
+        challengeId: target_id,
+        userId: user_id
+      }
+    })
+    .then(function(userChallenge) {
+      if (userChallenge.get('accepted')) {
+        res.status(201).json({'success': true});
+      } else {
+        res.status(200).json({'success': false});
+      }
+    });
+  });
 
   // var user_id = req.user.id;
   //
@@ -365,31 +441,31 @@ router.put('/challenge/:id/accept', requires_login, function(req, res) {
   // });
 
 
-  var user_id = 1;
-  var data;
-  require('../specs/server/mock_challenge_list.json').forEach(function(challenge) {
-    if(challenge.id === target_id && !challenge.started) {
-      data = challenge;
-      return;
-    }
-  });
-  if (data === undefined) {
-    res.status(400).json({'error': 'ENOTFOUND', 'message': 'User not part of challenge or already accepted'});
-  } else {
-    var found = false;
-    data.participants.forEach(function(user) {
-      if (user.id === user_id && !user.accepted) {
-        found = true;
-        return;
-      }
-    });
+  // var user_id = 1;
+  // var data;
+  // require('../specs/server/mock_challenge_list.json').forEach(function(challenge) {
+  //   if(challenge.id === target_id && !challenge.started) {
+  //     data = challenge;
+  //     return;
+  //   }
+  // });
+  // if (data === undefined) {
+  //   res.status(400).json({'error': 'ENOTFOUND', 'message': 'User not part of challenge or already accepted'});
+  // } else {
+  //   var found = false;
+  //   data.participants.forEach(function(user) {
+  //     if (user.id === user_id && !user.accepted) {
+  //       found = true;
+  //       return;
+  //     }
+  //   });
 
-    if (!found) {
-      res.status(400).json({'error': 'ENOTFOUND', 'message': 'User not part of challenge or already accepted'});
-    } else {
-      res.json({'success': true});
-    }
-  }
+  //   if (!found) {
+  //     res.status(400).json({'error': 'ENOTFOUND', 'message': 'User not part of challenge or already accepted'});
+  //   } else {
+  //     res.json({'success': true});
+  //   }
+  // }
 });
 
 
