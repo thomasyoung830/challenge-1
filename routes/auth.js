@@ -15,7 +15,6 @@ router.get('/logout', function(req, res) {
 
 router.get('/login', function(req, res, next) {
   if (process.env.TESTING) {
-    console.log('fancy');
     req.login({id:1}, function() {
       res.send();
     });
