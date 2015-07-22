@@ -15,8 +15,8 @@ var api_request = request.defaults({
 
 describe('Api integration tests', function() {
   before(function(done) {
-    app.set('port', 3030);
     var server = http.createServer(app);
+    app.set('port', 3030);
     server.listen(3030);
     server.on('listening', function() {
       console.log('Listening on ' + 3030);
@@ -28,47 +28,91 @@ describe('Api integration tests', function() {
   });
 
   describe('Unauthenticated routes', function() {
+    before(function(done) {
+      models.orm.drop().then(function() {return models.orm.sync();}).then(function() {
+        return models.User.bulkCreate([{
+          'id': 1,
+          'first_name': 'Randy',
+          'last_name': 'Savage',
+          'fb_id': '1'
+        }, {
+          'id': 2,
+          'first_name': 'Paul',
+          'last_name': 'Newman',
+          'fb_id': '2'
+        }]);
+      }).then(function() {
+        return models.Challenge.create({'id':1, 'title':'test', 'message':'test', 'creator':1});
+      }).then(function(challenge) {
+        return challenge.addParticipant(1, {'accepted':true});
+      }).then(function() {
+        done();
+      });
+    });
+
+    after(function(done) {
+      models.orm.drop().then(function() {
+        done();
+      });
+    });
+
     it('should retrieve a specific challenge', function(done) {
-      var uri = '/api/1/challenge/1';
-      api_request({'uri':uri, 'json':true}, function(err, res, body) {
+      var uri = 'http://localhost:3030/api/1/challenge/1';
+      request({'uri':uri, 'json':true}, function(err, res, body) {
         expect(body).to.be.an('object');
-        expect(body.id).to.equal(1);
-        expect(body.participants.length).to.be.above(0);
+        expect(body.id).to.eql(1);
+        expect(body).to.contain.all.keys([
+          'id', 'title', 'message', 'url',
+          'creator', 'started', 'complete', 'winner',
+          'date_created', 'date_started', 'date_completed',
+          'participants'
+        ]);
+        expect(body.participants).to.be.an('array');
+        expect(body.participants).to.have.length.above(0);
+        expect(body.participants[0]).to.contain.keys([
+          'id', 'first_name', 'last_name', 'accepted'
+        ]);
         done();
       });
     });
 
     it('should retrieve a list of public challenges', function(done) {
-      var uri = '/api/1/challenge/public';
-      api_request({'uri':uri, 'json':true}, function(err, res, body) {
+      var uri = 'http://localhost:3030/api/1/challenge/public';
+      request({'uri':uri, 'json':true}, function(err, res, body) {
         expect(body).to.be.an('array');
-        expect(body[0].participants.length).to.be.above(0);
+        expect(body).to.not.be.empty;
+        expect(body[0].id).to.eql(1);
+        expect(body[0]).to.contain.all.keys([
+          'id', 'title', 'message', 'url',
+          'creator', 'started', 'complete', 'winner',
+          'date_created', 'date_started', 'date_completed',
+          'participants'
+        ]);
+        expect(body[0].participants).to.be.an('array');
+        expect(body[0].participants).to.have.length.above(0);
+        expect(body[0].participants[0]).to.contain.keys([
+          'id', 'first_name', 'last_name', 'accepted'
+        ]);
         done();
       });
     });
   });
 
   describe('Authenticated routes', function() {
-    // YEAH RIGHT FACBOOK LOGIN
-    // it('should be able to sign up for an account', function(done) {
-
-    // });
-    // it('should be able to login', function(done) {
-
-    // });
-
     before(function(done) {
-      models.User.bulkCreate([{
-        'id': 1,
-        'first_name': 'Randy',
-        'last_name': 'Savage',
-        'fb_id': '1'
-      }, {
-        'id': 2,
-        'first_name': 'Paul',
-        'last_name': 'Newman',
-        'fb_id': '2'
-      }]).then(function() {
+      models.orm.drop().then(function() {return models.orm.sync();}).then(function() {
+        return models.User.bulkCreate([{
+          'id': 1,
+          'first_name': 'Randy',
+          'last_name': 'Savage',
+          'fb_id': '1'
+        }, {
+          'id': 2,
+          'first_name': 'Paul',
+          'last_name': 'Newman',
+          'fb_id': '2'
+        }]);
+      }).then(function() {
         api_request({'uri': '/auth/login'}, function(err, res, body) {
           done();
         });
@@ -91,14 +135,14 @@ describe('Api integration tests', function() {
     });
 
     it('should be able to create a new challenge', function(done) {
-      var uri = 'http://localhost:3030/api/1/challenge';
+      var uri = '/api/1/challenge';
       var data = {
         'title': 'There is text here',
         'message': 'Here as well',
         'participants': [2]
       };
 
-      request({'uri':uri, 'method':'POST', 'json':data}, function(err, res, body) {
+      api_request({'uri':uri, 'method':'POST', 'json':data}, function(err, res, body) {
         expect(body).to.be.an('object');
         expect(body).to.contain.key('id');
         expect(body.id).to.be.a('number');
@@ -120,7 +164,7 @@ describe('Api integration tests', function() {
           'participants'
         ]);
         expect(body[0].participants).to.be.an('array');
-        expect(body[0].participants).to.have.length(2);
+        expect(body[0].participants).to.have.length.above(0);
         expect(body[0].participants[0]).to.contain.keys([
           'id', 'first_name', 'last_name', 'accepted'
         ]);
@@ -161,7 +205,7 @@ describe('Api integration tests', function() {
       var uri = '/api/1/challenge/1/complete';
       var data = {'winner': 1};
 
-      request({'uri':uri, 'method':'PUT', 'json':data}, function(err, res, body) {
+      api_request({'uri':uri, 'method':'PUT', 'json':data}, function(err, res, body) {
         expect(body).to.be.an('object');
         expect(body.success).to.be.true;
         done();
@@ -170,8 +214,9 @@ describe('Api integration tests', function() {
 
     it('shouldn\'t be able to complete a challenge that has already been completed', function(done) {
       var uri = '/api/1/challenge/1/complete';
+      var data = {'winner': 1};
 
-      api_request({'uri':uri, 'method':'PUT', 'json':true}, function(err, res, body) {
+      api_request({'uri':uri, 'method':'PUT', 'json':data}, function(err, res, body) {
         expect(res.statusCode).to.eql(400);
         expect(body).to.be.an('object');
         expect(body).to.have.all.keys(['error', 'message']);
