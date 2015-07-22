@@ -57,11 +57,21 @@ describe('Api integration tests', function() {
     });
 
     it('should retrieve a specific challenge', function(done) {
-      var uri = '/api/1/challenge/1';
-      api_request({'uri':uri, 'json':true}, function(err, res, body) {
+      var uri = 'http://localhost:3030/api/1/challenge/1';
+      request({'uri':uri, 'json':true}, function(err, res, body) {
         expect(body).to.be.an('object');
-        expect(body.id).to.equal(1);
-        expect(body.participants.length).to.be.above(0);
+        expect(body.id).to.eql(1);
+        expect(body).to.contain.all.keys([
+          'id', 'title', 'message', 'url',
+          'creator', 'started', 'complete', 'winner',
+          'date_created', 'date_started', 'date_completed',
+          'participants'
+        ]);
+        expect(body.participants).to.be.an('array');
+        expect(body.participants).to.have.length.above(0);
+        expect(body.participants[0]).to.contain.keys([
+          'id', 'first_name', 'last_name', 'accepted'
+        ]);
         done();
       });
     });
