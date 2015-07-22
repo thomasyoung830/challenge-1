@@ -57,10 +57,26 @@ describe('Api integration tests', function() {
 
     // });
 
-    xit('should be able to retrieve user info', function(done) {
-      var uri = 'http://localhost:3030/api/1/user_info';
-      request({'uri':uri, 'json':true}, function(err, res, body) {
-        // tests here
+    before(function(done) {
+      models.User.bulkCreate([{
+        'id': 1,
+        'first_name': 'Randy',
+        'last_name': 'Savage',
+        'fb_id': '1'
+      }, {
+        'id': 2,
+        'first_name': 'Paul',
+        'last_name': 'Newman',
+        'fb_id': '2'
+      }]).then(function() {
+        api_request({'uri': '/auth/login'}, function(err, res, body) {
+          done();
+        });
+      });
+    });
+
+    after(function(done) {
+      models.orm.drop().then(function() {
         done();
       });
     });
