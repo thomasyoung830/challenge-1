@@ -62,7 +62,7 @@ describe('Api integration tests', function() {
         expect(body).to.be.an('object');
         expect(body.id).to.eql(1);
         expect(body).to.contain.all.keys([
-          'id', 'title', 'message',
+          'id', 'title', 'message', 'wager',
           'creator', 'started', 'complete', 'winner',
           'date_created', 'date_started', 'date_completed',
           'participants'
@@ -83,7 +83,7 @@ describe('Api integration tests', function() {
         expect(body).to.not.be.empty;
         expect(body[0].id).to.eql(1);
         expect(body[0]).to.contain.all.keys([
-          'id', 'title', 'message',
+          'id', 'title', 'message', 'wager',
           'creator', 'started', 'complete', 'winner',
           'date_created', 'date_started', 'date_completed',
           'participants'
@@ -158,7 +158,7 @@ describe('Api integration tests', function() {
         expect(body).to.not.be.empty;
         expect(body[0].id).to.eql(1);
         expect(body[0]).to.contain.all.keys([
-          'id', 'title', 'message',
+          'id', 'title', 'message', 'wager',
           'creator', 'started', 'complete', 'winner',
           'date_created', 'date_started', 'date_completed',
           'participants'
