@@ -29,10 +29,11 @@ var User = orm.define('users', {
 });
 
 var Challenge = orm.define('challenges', {
-  url_id: {
-    type: Sequelize.INTEGER,
-    autoincrement: true
-  },
+  // Decided this was not needed, just using the 'id' on Challenge
+  // url_id: {
+  //   type: Sequelize.INTEGER,
+  //   autoincrement: true
+  // },
 
   title: {
     type: Sequelize.STRING, allowNull: false
