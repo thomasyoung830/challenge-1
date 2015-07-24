@@ -18,8 +18,15 @@ angular.module('challengeApp.challenge', [])
   $scope.getChallengeInfo($stateParams.challengeId);
 
   $scope.acceptChallenge = function() {
-    ChallengeFactory.acceptChallenge();
+    ChallengeFactory.acceptChallenge($stateParams.challengeId);
   };
 
+  $scope.challengeCompleted = function() {
+    ChallengeFactory.challengeCompleted($stateParams.challengeId);
+  };
+
+  $scope.startChallenge = function() {
+    ChallengeFactory.startChallenge($stateParams.challengeId);
+  };
 
 });
