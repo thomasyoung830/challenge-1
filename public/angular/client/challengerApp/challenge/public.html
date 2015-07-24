@@ -15,3 +15,12 @@
   </div>
   <div class="challengeWinner" ng-show="challengeData.winner !== null">jjj</div>
 </div>
+
+
+ <!-- Nested Views for Creator and Challengee -->
+  <div ng-if="challengeData.creator"
+    <div ui-view="creator"></div>
+    </div>
+  <div ng-if="{{ challengeData.participants | filter: {id:'!'+challengeData.creator} }}"
+    <div ui-view="challengee"></div>
+  </div>

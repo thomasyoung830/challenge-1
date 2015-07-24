@@ -46,9 +46,18 @@ angular.module('challengeApp.services', [])
   var challengeCompleted = function(challengeId) {
     return $http({
       method: 'PUT',
-      url: '/api/1/challenge/' + challengeId + '/accept',
+      url: '/api/1/challenge/' + challengeId + '/complete',
     }).then(function(resp) {
       console.log("challenge completed", resp);
+    })
+  };
+
+  var startChallenge = function(challengeId) {
+    return $http({
+      method: 'PUT',
+      url: '/api/1/challenge/' + challengeId + '/started',
+    }).then(function(resp) {
+      console.log("challenge started", resp);
     })
   };
 
@@ -56,7 +65,8 @@ angular.module('challengeApp.services', [])
   return {
     getChallengeInfo: getChallengeInfo,
     acceptChallenge: acceptChallenge,
-    challengeCompleted: challengeCompleted
+    challengeCompleted: challengeCompleted,
+    startChallenge: startChallenge
   };
 })
 

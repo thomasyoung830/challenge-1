@@ -42,25 +42,17 @@ angular.module('challengeApp', [
         url: '/challenge/:challengeId',
         templateUrl: 'angular/client/challengerApp/challenge/public.html',
         controller: 'ChallengeController'
-        // views: {
-        //     // the main template will be placed here (relatively named)
-        //     'creator': { 
-        //       templateUrl: 'challenge/creator.html',
-        //       controller: 'ChallengeController'
-        //     },
 
-        //     // the child views will be defined here (absolutely named)
-        //     'challenger': { 
-        //       templateUrl: 'challenge/challenger.html', 
-        //       controller: "ChallengeController"
-        //     },
+    .state('challenge.creator', {
+      url: '/creator',
+      templateUrl: 'angular/client/challengerApp/challenge/creator.html', 
+    })
 
-        //     'public': { 
-        //       templateUrl: 'challenge/public.html',
-        //       controller: "ChallengeController" 
-        //   }
-        // }
-    });
+    .state('challenge.challengee', {
+      url: '/challengee',
+      templateUrl: 'angular/client/challengerApp/challenge/challengee.html', 
+    })
+  });
 
 }).controller('ChallengeAppController', function($scope, $state, Auth) {
   $scope.user = null;
