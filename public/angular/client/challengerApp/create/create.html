@@ -1,14 +1,19 @@
-<div id='container'>
-  <form novalidate class="simple-form">
-    Title: <input type="text" ng-model="challengeInfo.title" /><br/>
-    Description: <input type="text" ng-model="challengeInfo.message" /><br/>
-    <label>Who do you want to challenge?
-      <select ng-model="challengeInfo.challengee" ng-options="user.full_name for user in allUsers"></select>
-    </label><br/>
-    Wager: <input type="text" ng-model="challengeInfo.wager" /><br/>
-
-    <pre>{{challengeInfo | json}}</pre>
-
-    <input type="submit" ng-click="postChallenge(challengeInfo)" value="Create Challenge" />
-  </form>
-</div>
+<div id='container' class="container">
+      <div class="row">
+        <div class="col-md-9 col-xs-12 forma">
+          <form novalidate class="simple-form"> 
+            <input type="text" class="col-md-6 col-xs-12 name" name='name' ng-model="challengeInfo.title" placeholder='Title *'/>
+            <input type="text" class="col-md-6 col-xs-12 Email" name='description' placeholder='Description *'/>
+            <label>Who do you want to challenge?
+               <select class="col-md-12 col-xs-12" ng-model="challengeInfo.challengee" ng-options="user.full_name for user in allUsers"></select>
+            </label><br/>
+            <textarea type="text" class="col-md-12 col-xs-12 Message" name='wager' ng-model="challengeInfo.wager" placeholder='Wager *'></textarea>
+            <pre>{{challengeInfo | json}}</pre>
+            <div class="cBtn col-xs-12">
+              <ul>
+                <!-- <li class="clear"><a href="#"><i class="fa fa-times"></i>clear form</a></li> -->
+                <li class="send" ng-click="postChallenge(challengeInfo)" value="Create Challenge"><a href="#"><i class="fa fa-share"></i>Create Challenge</a></li>
+              </ul>
+            </div>
+          </form>
+        </div>

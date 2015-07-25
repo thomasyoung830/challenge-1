@@ -19,8 +19,8 @@
 
  <!-- Nested Views for Creator and Challengee -->
   <div ng-if="challengeData.creator"
-    <div ui-view="creator"></div>
+    ng-include="'angular/client/challengerApp/challenge/creator.html'">
     </div>
   <div ng-if="{{ challengeData.participants | filter: {id:'!'+challengeData.creator} }}"
-    <div ui-view="challengee"></div>
+    ng-include="'angular/client/challengerApp/challenge/challengee.html'">
   </div>
