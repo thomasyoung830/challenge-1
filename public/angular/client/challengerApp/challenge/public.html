@@ -1,26 +1,32 @@
+
+
+
 <div id='container'>
-  <!-- Your html here -->
-  <div class="challengeDetails">
-    <div class="challengeTitle">{{ challengeData.title }}</div>
-    <div class="challengeDescription">{{ challengeData.message }}</div>
-  </div>
-  <div class="challengeUsers">
-    <div class="challengeCreator">{{ challengeData.participants | filter: {id:challengeData.creator} }}</div>
-    <div class="challengeeUser">{{ challengeData.participants | filter: {id:'!'+challengeData.creator} }}</div>
-  </div>
-  <div class="challengeDates">
-    <div class="challengeCreatedDate">{{ challengeData.date_created | date: "medium" }}</div>
-    <div class="challengeStarted">{{ challengeData.date_started | date: "medium" }}</div>
-    <div class="challengeEndDate">{{ challengeData.date_completed | date: "medium" }}</div>
-  </div>
-  <div class="challengeWinner" ng-show="challengeData.winner !== null">jjj</div>
+<div id="contact">
+<div class="line5">                 
+    <div class="container">
+        <div class="row Ama">
+            <!-- <div class="col-md-12"> -->
+             <!-- THIS IS WHERE WE WILL INJECT OUR CONTENT ============================== -->
+            <h3 id="challenges"> <div class="challengeDetails">
+                <div class="challengeTitle">{{ challengeData.title }}</div>
+                <div class="challengeDescription">{{ challengeData.message }}</div>
+              </div>
+              <div class="challengeUsers">
+                <div class="challengeCreator">{{ challengeData.participants | filter: {id:challengeData.creator} }}</div>
+                <div class="challengeeUser">{{ challengeData.participants | filter: {id:'!'+challengeData.creator} }}</div>
+              </div>
+              <div class="challengeDates">
+                <div class="challengeCreatedDate">{{ challengeData.date_created | date: "medium" }}</div>
+                <div class="challengeStarted">{{ challengeData.date_started | date: "medium" }}</div>
+                <div class="challengeEndDate">{{ challengeData.date_completed | date: "medium" }}</div>
+              </div>
+              <div class="challengeWinner" ng-show="challengeData.winner !== null">jjj</div>
+  </h3>
+                <div ui-view></div>
+            <!-- <p>Get in touch with us</p> -->
+            </div>
+        </div>
+    </div>
 </div>
-
-
- <!-- Nested Views for Creator and Challengee -->
-  <div ng-if="challengeData.creator"
-    ng-include="'angular/client/challengerApp/challenge/creator.html'">
-    </div>
-  <div ng-if="{{ challengeData.participants | filter: {id:'!'+challengeData.creator} }}"
-    ng-include="'angular/client/challengerApp/challenge/challengee.html'">
-  </div>
+</div>
